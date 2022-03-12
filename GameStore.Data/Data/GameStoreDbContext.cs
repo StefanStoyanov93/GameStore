@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class GameStoreDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public GameStoreDbContext(DbContextOptions<GameStoreDbContext> options)
             : base(options)
         {
         }
