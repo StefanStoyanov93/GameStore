@@ -1,6 +1,6 @@
 ﻿/* Dropdown Button */
 .dropbtn {
-    background-color: black;
+/*    background-color: black;*/
     color: white;
     padding: 16px;
     font-size: 16px;
@@ -24,14 +24,14 @@
 
 /* Links inside the dropdown */
 .dropdown-content a {
-  color: black;
+/*  color: black;*/
   padding: 12px 16px;
   text-decoration: none;
   display: block;
 }
 
 .logout {
-    color: black;
+/*    color: black;*/
     padding: 12px 16px;
     text-decoration: none;
     display: block;
