@@ -17,6 +17,11 @@ namespace GameStore.Data
         public const int DeveloperMaxLength = 40;
         public const int PublisherMinLength = 4;
         public const int PublisherMaxLength = 40;
-        public const int DescriptionLength = 500;     
+        public const int DescriptionLength = 500;
+
+        public const int UserDisplayName = 50;
+        public const int UserFirstName = 30;
+        public const int UserLastName = 30;
+        public const int UserCountry = 60;
     }
 }

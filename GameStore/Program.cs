@@ -1,4 +1,5 @@
 using GameStore.Data.Data;
+using GameStore.Data.Models;
 using GameStore.ModelBinders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -7,11 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddApplicationDbContext(builder.Configuration);
-builder.Services.AddDefaultIdentity<IdentityUser>(options => 
+builder.Services.AddDefaultIdentity<User>(options => 
 {
     options.Password.RequireUppercase = false;
     options.Password.RequireNonAlphanumeric = false;
-    options.SignIn.RequireConfirmedAccount = true;
 })
     .AddEntityFrameworkStores<GameStoreDbContext>();
 builder.Services.AddControllersWithViews()
