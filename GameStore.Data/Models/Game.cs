@@ -33,6 +33,8 @@ namespace GameStore.Data.Models
         [Column(TypeName = "decimal(18,4)")]
         public decimal Price { get; set; }
 
+        [Required]
+        [Column(TypeName = "date")]
         public DateTime ReleaseDate { get; set; }
 
         public ICollection<GameGenre> Genres { get; set; } = new List<GameGenre>();

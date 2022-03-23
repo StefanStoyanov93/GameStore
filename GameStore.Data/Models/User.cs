@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static GameStore.Data.DataConstants;
 
 namespace GameStore.Data.Models
@@ -20,6 +21,8 @@ namespace GameStore.Data.Models
         [StringLength(UserCountry)]
         public string Country { get; set; }
 
+        [Required]
+        [Column(TypeName = "date")]
         public DateTime BirthDate { get; set; }
 
         public ICollection<OwnedGame> OwnedGames { get; set; } = new List<OwnedGame>();
