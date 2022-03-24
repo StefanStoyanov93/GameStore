@@ -46,10 +46,10 @@ namespace GameStore.Web.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 10)]
-            [Display(Name = "Display Name")]
+            [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 5)]
+            [Display(Name = "Username")]
             [DataType(DataType.Text)]
-            public string DisplayName { get; set; }
+            public string Username { get; set; }
 
             [StringLength(30)]
             [Display(Name = "First Name")]
@@ -105,12 +105,11 @@ namespace GameStore.Web.Areas.Identity.Pages.Account
                 var user = CreateUser();
 
                 user.Country = Input.Country;
-                user.DisplayName = Input.DisplayName;
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
                 user.BirthDate = Input.BirthDate;
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 

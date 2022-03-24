@@ -7,10 +7,6 @@ namespace GameStore.Data.Models
 {
     public class User : IdentityUser
     {
-        [Required]
-        [StringLength(UserDisplayName)]
-        public string DisplayName { get; set; }
-
         [StringLength(UserFirstName)]
         public string? FirstName { get; set; }
 

@@ -12,8 +12,8 @@ builder.Services.AddDefaultIdentity<User>(options =>
 {
     options.Password.RequireUppercase = false;
     options.Password.RequireNonAlphanumeric = false;
-    options.SignIn.RequireConfirmedAccount = true;
-    options.SignIn.RequireConfirmedEmail = true;
+    options.SignIn.RequireConfirmedAccount = false;
+    options.SignIn.RequireConfirmedEmail = false;
 })
     .AddEntityFrameworkStores<GameStoreDbContext>();
 builder.Services.AddControllersWithViews()
