@@ -1,4 +1,5 @@
-﻿using GameStore.Data.Models;
+﻿using GameStore.Data.Extensions;
+using GameStore.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,8 @@ namespace GameStore.Data.Data
             builder.Entity<GameGenre>().HasKey(x => new { x.GenreId, x.GameId });
             builder.Entity<OwnedGame>().HasKey(x => new { x.UserId, x.GameId });
             builder.Entity<Wishlist>().HasKey(x => new { x.UserId, x.GameId });
+
+            builder.SeedGenres();
 
             base.OnModelCreating(builder);
         }
