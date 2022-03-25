@@ -4,6 +4,7 @@ using GameStore.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameStore.Data.Migrations
 {
     [DbContext(typeof(GameStoreDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220325185229_AddCountries")]
+    partial class AddCountries
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,38 +40,6 @@ namespace GameStore.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Countries");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "United States"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "United Kingdom"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Japan"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Bulgaria"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Spain"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "China"
-                        });
                 });
 
             modelBuilder.Entity("GameStore.Data.Models.Game", b =>

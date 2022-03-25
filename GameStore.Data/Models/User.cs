@@ -13,9 +13,10 @@ namespace GameStore.Data.Models
         [StringLength(UserLastName)]
         public string? LastName { get; set; }
 
-        [Required]
-        [StringLength(UserCountry)]
-        public string Country { get; set; }
+        [ForeignKey(nameof(Country))]
+        public int CountryId { get; set; }
+
+        public Country Country { get; set; }
 
         [Required]
         [Column(TypeName = "date")]

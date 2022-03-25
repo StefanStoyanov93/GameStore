@@ -61,11 +61,11 @@ namespace GameStore.Web.Areas.Identity.Pages.Account
             [DataType(DataType.MultilineText)]
             public string LastName { get; set; }
 
-            [Required]
-            [StringLength(60, MinimumLength = 3)]
-            [Display(Name = "Country")]
-            [DataType(DataType.Text)]
-            public string Country { get; set; }
+            //[Required]
+            //[StringLength(60, MinimumLength = 3)]
+            //[Display(Name = "Country")]
+            //[DataType(DataType.Text)]
+            //public string Country { get; set; }
 
             [Required]
             [DataType(DataType.Date)]
@@ -104,7 +104,7 @@ namespace GameStore.Web.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
-                user.Country = Input.Country;
+                //user.Country = Input.Country;
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
                 user.BirthDate = Input.BirthDate;

@@ -30,5 +30,17 @@ namespace GameStore.Data.Extensions
                 new Genre() { Id = 20, GenreName = "Turn-based" }
             );
         }
+
+        public static void SeedCountries(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Country>().HasData(
+                new Country() { Id = 1, Name = "United States" },
+                new Country() { Id = 2, Name = "United Kingdom" },
+                new Country() { Id = 3, Name = "Japan" },
+                new Country() { Id = 4, Name = "Bulgaria" },
+                new Country() { Id = 5, Name = "Spain" },
+                new Country() { Id = 6, Name = "China" }
+            );
+        }
     }
 }

@@ -17,6 +17,8 @@ namespace GameStore.Data.Data
         public DbSet<GameGenre> GameGenres { get; set; }
         public DbSet<OwnedGame> OwnedGames { get; set; }
         public DbSet<Wishlist> Wishlists { get; set; }
+        public DbSet<Country> Countries { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -25,6 +27,7 @@ namespace GameStore.Data.Data
             builder.Entity<Wishlist>().HasKey(x => new { x.UserId, x.GameId });
 
             builder.SeedGenres();
+            builder.SeedCountries();
 
             base.OnModelCreating(builder);
         }
