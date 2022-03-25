@@ -60,15 +60,14 @@ namespace GameStore.Web.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
 
-            //[StringLength(30)]
-            //[Display(Name = "First Name")]
-            //[DataType(DataType.Text)]
-            //public string FirstName { get; set; }
+            [StringLength(30)]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
 
-            //[StringLength(30)]
-            //[Display(Name = "Last Name")]
-            //[DataType(DataType.MultilineText)]
-            //public string LastName { get; set; }
+            [StringLength(30)]
+            [Display(Name = "Last Name")]
+            [DataType(DataType.MultilineText)]
+            public string LastName { get; set; }
 
             //[Required]
             //[StringLength(60, MinimumLength = 3)]
@@ -76,14 +75,9 @@ namespace GameStore.Web.Areas.Identity.Pages.Account.Manage
             //[DataType(DataType.Text)]
             //public string Country { get; set; }
 
-            //[DataType(DataType.Date)]
-            //[Display(Name = "Date of Birth")]
-            //public DateTime BirthDate { get; set; }
-
-            //[StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 5)]
-            //[Display(Name = "Username")]
-            //[DataType(DataType.Text)]
-            //public string Username { get; set; }
+            [DataType(DataType.Date)]
+            [Display(Name = "Date of Birth")]
+            public DateTime BirthDate { get; set; }
         }
 
         private async Task LoadAsync(User user)
@@ -96,9 +90,9 @@ namespace GameStore.Web.Areas.Identity.Pages.Account.Manage
             Input = new InputModel
             {
                 //Country = user.Country,
-                //FirstName = user.FirstName,
-                //LastName = user.LastName,
-                //BirthDate = user.BirthDate,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                BirthDate = user.BirthDate,
                 PhoneNumber = phoneNumber
             };
         }
@@ -140,27 +134,27 @@ namespace GameStore.Web.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            //if (Input.FirstName != user.FirstName)
-            //{
-            //    user.FirstName = Input.FirstName;
-            //}
+            if (Input.FirstName != user.FirstName)
+            {
+                user.FirstName = Input.FirstName;
+            }
 
-            //if (Input.LastName != user.LastName)
-            //{
-            //    user.LastName = Input.LastName;
-            //}
+            if (Input.LastName != user.LastName)
+            {
+                user.LastName = Input.LastName;
+            }
 
             //if (Input.Country != user.Country)
             //{
             //    user.Country = Input.Country;
             //}
 
-            //if (Input.BirthDate != user.BirthDate)
-            //{
-            //    user.BirthDate = Input.BirthDate;
-            //}
+            if (Input.BirthDate != user.BirthDate)
+            {
+                user.BirthDate = Input.BirthDate;
+            }
 
-            //await _userManager.UpdateAsync(user);
+            await _userManager.UpdateAsync(user);
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
