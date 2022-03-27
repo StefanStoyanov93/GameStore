@@ -69,11 +69,9 @@ namespace GameStore.Web.Areas.Identity.Pages.Account.Manage
             [DataType(DataType.MultilineText)]
             public string LastName { get; set; }
 
-            //[Required]
-            //[StringLength(60, MinimumLength = 3)]
-            //[Display(Name = "Country")]
-            //[DataType(DataType.Text)]
-            //public string Country { get; set; }
+            [Display(Name = "Country")]
+            [DataType(DataType.Text)]
+            public string Country { get; set; }
 
             [DataType(DataType.Date)]
             [Display(Name = "Date of Birth")]
@@ -89,7 +87,6 @@ namespace GameStore.Web.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                //Country = user.Country,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 BirthDate = user.BirthDate,
@@ -143,11 +140,6 @@ namespace GameStore.Web.Areas.Identity.Pages.Account.Manage
             {
                 user.LastName = Input.LastName;
             }
-
-            //if (Input.Country != user.Country)
-            //{
-            //    user.Country = Input.Country;
-            //}
 
             if (Input.BirthDate != user.BirthDate)
             {

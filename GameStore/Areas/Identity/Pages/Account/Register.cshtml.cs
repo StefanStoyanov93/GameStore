@@ -1,4 +1,5 @@
 ﻿#nullable disable
+using GameStore.Data.Data;
 using GameStore.Data.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -20,13 +21,15 @@ namespace GameStore.Web.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<User> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly GameStoreDbContext _data;
 
         public RegisterModel(
             UserManager<User> userManager,
             IUserStore<User> userStore,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            GameStoreDbContext data)            
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -34,6 +37,7 @@ namespace GameStore.Web.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _data = data;
         }
 
         [BindProperty]
@@ -42,6 +46,12 @@ namespace GameStore.Web.Areas.Identity.Pages.Account
         public string ReturnUrl { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
+
+        public class CountriesModel
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+        }
 
         public class InputModel
         {
@@ -61,11 +71,11 @@ namespace GameStore.Web.Areas.Identity.Pages.Account
             [DataType(DataType.MultilineText)]
             public string LastName { get; set; }
 
-            //[Required]
-            //[StringLength(60, MinimumLength = 3)]
-            //[Display(Name = "Country")]
-            //[DataType(DataType.Text)]
-            //public string Country { get; set; }
+            [Required]
+            [Display(Name = "Country")]
+            public int CountryId { get; set; }
+
+            public IEnumerable<CountriesModel> Countries { get; set; }
 
             [Required]
             [DataType(DataType.Date)]
@@ -90,10 +100,30 @@ namespace GameStore.Web.Areas.Identity.Pages.Account
         }
 
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            await LoadAsync();
+            return Page();
+
+        }
+
+        private async Task LoadAsync()
+        {
+
+            var countries = _data.Countries
+                .Select(x => new CountriesModel
+                {
+                    Name = x.Name,
+                    Id = x.Id
+                })
+                .ToList();
+
+            Input = new InputModel
+            {
+                Countries = countries
+            };
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -104,10 +134,10 @@ namespace GameStore.Web.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
-                //user.Country = Input.Country;
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
                 user.BirthDate = Input.BirthDate;
+                user.CountryId = Input.CountryId;
 
                 await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
