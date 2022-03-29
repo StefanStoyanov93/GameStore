@@ -1,4 +1,6 @@
-﻿using GameStore.Data.Data;
+﻿using GameStore.Core.Serveces;
+using GameStore.Core.Serveces.Contracts;
+using GameStore.Data.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -7,6 +9,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddScoped<IStoreServices, StoreServices>();
 
             return services;
         }
