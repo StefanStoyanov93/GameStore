@@ -1,4 +1,5 @@
-﻿using GameStore.Data.Data;
+﻿using GameStore.Core.Serveces.Contracts;
+using GameStore.Data.Data;
 using GameStore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,25 +8,18 @@ namespace GameStore.Controllers
 {
     public class StoreController : Controller
     {
-        private readonly GameStoreDbContext data;
+        private readonly IStoreServices service;
 
-        public StoreController(GameStoreDbContext context)
+        public StoreController(IStoreServices _service)
         {
-            data = context;
+            service = _service;
         }
 
 
         [HttpGet]
-        public IActionResult Games()
+        public IActionResult Browse()
         {
-            var games = data.Games
-                .Select(g => new StoreGamesViewModel
-                {
-                    ImageUrl = g.ImageUrl,
-                    Name = g.Name,
-                    Price = g.Price
-                })
-                .ToList();
+            var games = service.GetGames();
 
             return View(games);
         }

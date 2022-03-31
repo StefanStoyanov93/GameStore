@@ -2,6 +2,7 @@
 using GameStore.Core.Serveces.Contracts;
 using GameStore.Data.Data;
 using GameStore.Data.Models;
+using GameStore.Models;
 
 namespace GameStore.Core.Serveces
 {
@@ -45,6 +46,16 @@ namespace GameStore.Core.Serveces
 
             data.SaveChanges();
         }
+
+        public List<StoreGamesViewModel> GetGames()
+            => data.Games
+            .Select(x => new StoreGamesViewModel
+            {
+                Name = x.Name,
+                ImageUrl = x.ImageUrl,
+                Price = x.Price,
+            })
+            .ToList();
 
         public IEnumerable<GenreSortingModel> GetGenres()
             => this.data.Genres

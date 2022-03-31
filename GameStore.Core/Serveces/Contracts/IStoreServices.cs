@@ -1,4 +1,5 @@
 ﻿using GameStore.Core.Models;
+using GameStore.Models;
 
 namespace GameStore.Core.Serveces.Contracts
 {
@@ -7,6 +8,8 @@ namespace GameStore.Core.Serveces.Contracts
         IEnumerable<GenreSortingModel> GetGenres();
 
         bool NameExists(string name);
+
+        List<StoreGamesViewModel> GetGames();
 
         void Create(string name, 
             string developer, 

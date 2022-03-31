@@ -40,7 +40,14 @@ namespace GameStore.Areas.Manager.Controllers
                 game.GenreIds.ToList());
 
 
-            return RedirectToAction("Index");
+            return RedirectToAction("All");
+        }
+
+        public IActionResult All()
+        {
+            var games = service.GetGames();
+
+            return View(games);
         }
 
         public IActionResult AddGame()
