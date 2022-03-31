@@ -43,6 +43,8 @@ namespace GameStore.Core.Models
         [Display(Name = "Release date")]
         public DateTime ReleaseDate { get; init; }
 
-        public IEnumerable<GenreSortingModel> Genres { get; set; }
+        public ICollection<int> GenreIds { get; init; } = new List<int>();
+
+        public IEnumerable<GenreSortingModel> Genres { get; set; } = new List<GenreSortingModel>();
     }
 }

@@ -24,7 +24,6 @@ namespace GameStore.Areas.Manager.Controllers
                 return View(game);
             }
 
-            var genreId = game.Genres.Select(x => x.Id).ToList();
 
             service.Create(game.Name, 
                 game.Developer, 
@@ -33,7 +32,7 @@ namespace GameStore.Areas.Manager.Controllers
                 game.Price,
                 game.ImageUrl,
                 game.ReleaseDate,
-                genreId);
+                game.GenreIds.ToList());
 
 
             return RedirectToAction("Index");
