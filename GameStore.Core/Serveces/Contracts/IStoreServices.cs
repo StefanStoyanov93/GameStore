@@ -6,6 +6,8 @@ namespace GameStore.Core.Serveces.Contracts
     {
         IEnumerable<GenreSortingModel> GetGenres();
 
+        bool NameExists(string name);
+
         void Create(string name, 
             string developer, 
             string publisher, 

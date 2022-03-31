@@ -54,7 +54,9 @@ namespace GameStore.Core.Serveces
                     Id = x.Id,
                 })
                 .ToList();
-     
-        
+
+        public bool NameExists(string name)
+            => data.Games
+            .Any(x => x.Name == name);
     }
 }

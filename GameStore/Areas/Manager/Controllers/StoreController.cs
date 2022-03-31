@@ -17,13 +17,18 @@ namespace GameStore.Areas.Manager.Controllers
         [HttpPost]
         public IActionResult AddGame(AddGameFormModel game)
         {
+
+            if (service.NameExists(game.Name))
+            {
+                ModelState.AddModelError(nameof(game.Name), "Game with this name already exist in the database.");
+            }
+
             if (!ModelState.IsValid)
             {
                 game.Genres = service.GetGenres();
 
                 return View(game);
             }
-
 
             service.Create(game.Name, 
                 game.Developer, 
