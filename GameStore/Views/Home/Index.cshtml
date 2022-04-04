@@ -1,7 +1,42 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model List<IndexGameModel>
+
+@{
+	ViewData["Title"] = "Home Page";
+	var firstGame = Model[0];
+	var secondGame = Model[1];
+	var thirdGame = Model[2];
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+	<h1 class="display-4">Welcome to Level Up Game Store!</h1>
+</div>
+
+@if (!Model.Any())
+{
+	<div class="text-center">
+		<p class="display-4">We are sorry, there are currently no games available.</p>
+	</div>
+}
+
+<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+	<div class="carousel-inner">
+		@for (int i = 0; i < Model.Count; i++)
+		{
+			var game = Model[i];
+			<div class="carousel-item @(i == 0 ? "active" : string.Empty)">
+				<img class="d-block w-100" src="@game.Image" alt="@game.Name">
+				<div class="carousel-caption d-none d-md-block">
+					<h5><a class="btn btn-primary" asp-controller="Cars" asp-action="Details" asp-route-id="@game.Id">@game.Name</a></h5>
+				</div>
+			</div>
+		}
+	</div>
+	<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		<span class="visually-hidden">Previous</span>
+	</button>
+	<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+		<span class="visually-hidden">Next</span>
+	</button>
 </div>

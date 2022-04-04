@@ -1,16 +1,21 @@
 ﻿@model List<StoreGamesViewModel>
+@{
+	ViewData["Title"] = "All Games";
+}
 
-<h1>GAMES</h1>
-<div class="row col-md-4">
+<h1 class="align-content-center">GAMES</h1>
+<div class="row">
 	@foreach (var game in Model)
 {
-	<div class="card" style="width: 18rem;">
+	<div class="row col-md-3">
+	<div class="card" style="width: 14rem;">
 		<img src=@game.ImageUrl class="card-img-top" alt="...">
 		<div class="card-body">
 			<h5 class="card-title">@game.Name</h5>
 			<p class="card-text">@game.Price$</p>
 			<a href="#" class="btn btn-primary">Go somewhere</a>
 		</div>
+	</div>
 	</div>
 }
 </div>

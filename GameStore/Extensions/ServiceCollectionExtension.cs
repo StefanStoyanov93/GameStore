@@ -10,6 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IStoreServices, StoreServices>();
+            services.AddScoped<IGameService, GameService>();
 
             return services;
         }

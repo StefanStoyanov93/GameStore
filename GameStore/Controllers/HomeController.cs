@@ -1,4 +1,5 @@
-﻿using GameStore.Models;
+﻿using GameStore.Core.Serveces.Contracts;
+using GameStore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,15 +8,21 @@ namespace GameStore.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IGameService gameService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IGameService _service)
         {
             _logger = logger;
+            gameService = _service;
         }
 
-        public IActionResult Index() => View();
+        public IActionResult Index()
+        {
+            var indexGames = gameService.GetIndexGames();
 
-        public IActionResult Privacy() => View();
+            return View(indexGames);
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
