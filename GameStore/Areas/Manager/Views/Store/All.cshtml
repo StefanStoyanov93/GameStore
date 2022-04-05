@@ -1,22 +1,62 @@
-﻿@model List<StoreGamesViewModel>
+﻿@model AllGamesManagerModel
 @{
 	ViewData["Title"] = "All Games";
 }
 
 <h1 class="align-content-center">GAMES</h1>
-<div class="row">
-	@foreach (var game in Model)
-{
-	<div class="row col-md-3">
-	<div class="card" style="width: 14rem;">
-		<img src=@game.ImageUrl class="card-img-top" alt="...">
-		<div class="card-body">
-			<h5 class="card-title">@game.Name</h5>
-			<p class="card-text">@game.Price$</p>
-			<a href="#" class="btn btn-primary">Go somewhere</a>
+
+<div class="row mb-3 col-md-3">
+	<form method="get">
+		<div class="form-group">
+			<label asp-for="SearchTerm"></label>
+			<input asp-for="SearchTerm" class="form-control">
 		</div>
-	</div>
-	</div>
-}
+	</form>
 </div>
+<div class="row">
+	@foreach (var game in Model.Games)
+	{
+		<div class="row col-md-3 mb-3">
+			<div class="card" style="width: 14rem;">
+				<img src=@game.ImageUrl class="card-img-top" alt="@game.Name">
+				<div class="card-body">
+					<h5 class="card-title">@game.Name</h5>
+					<p class="card-text">@String.Format("{0:0.00}", game.Price)$</p>
+					<a class="btn btn-primary" asp-area="Manager" asp-controller="Store" asp-action="Edit">Edit</a>
+					<a class="btn btn-primary" asp-area="Manager" asp-controller="Store" asp-action="Remove">Remove</a>
+				</div>
+			</div>
+		</div>
+	}
+</div>
+
+@{
+	var previousPage = Model.IndexPage - 1;
+	if (previousPage < 1)
+	{
+		previousPage = 1;
+	}
+
+	var totalPages = (int)Math.Ceiling(Model.TotalGames / (double)AllGamesManagerModel.gamesPerPage);
+	var lastButton = Model.IndexPage == totalPages;
+}
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li class="page-item @(Model.IndexPage == 1 ? "disabled" : string.Empty)">
+        <a class="page-link" asp-area="Manager" 
+	  asp-controller="Store" 
+	  asp-action="All"
+	  asp-route-indexPage="@(Model.IndexPage - 1)"
+	  >Previous</a>
+    </li>
+    <li class="page-item @(lastButton ? "disabled" : string.Empty)">
+      <a class="page-link" asp-area="Manager" 
+	  asp-controller="Store" 
+	  asp-action="All"
+	  asp-route-indexPage="@(Model.IndexPage + 1)"
+	  >Next</a>
+    </li>
+  </ul>
+</nav>
 

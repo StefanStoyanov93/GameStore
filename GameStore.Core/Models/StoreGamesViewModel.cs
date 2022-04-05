@@ -1,4 +1,4 @@
-﻿namespace GameStore.Models
+﻿namespace GameStore.Core.Models
 {
     public class StoreGamesViewModel
     {

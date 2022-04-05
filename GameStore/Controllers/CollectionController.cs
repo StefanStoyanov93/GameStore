@@ -4,7 +4,7 @@ namespace GameStore.Controllers
 {
     public class CollectionController : Controller
     {
-        public IActionResult Index()
+        public IActionResult All()
         {
             return View();
         }

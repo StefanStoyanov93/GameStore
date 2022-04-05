@@ -1,5 +1,5 @@
 ﻿using GameStore.Core.Models;
-using GameStore.Models;
+using GameStore.Core.Models.Manager;
 
 namespace GameStore.Core.Serveces.Contracts
 {
@@ -18,5 +18,7 @@ namespace GameStore.Core.Serveces.Contracts
             decimal price, string imageUrl, 
             DateTime releasedate, 
             List<int> genreIds);
+
+        GameServiceModel All(string searchTerm = null, int indexPage = 1, int gamesPerPage = int.MaxValue);
     }
 }

@@ -1,8 +1,8 @@
 ﻿using GameStore.Core.Models;
+using GameStore.Core.Models.Manager;
 using GameStore.Core.Serveces.Contracts;
 using GameStore.Data.Data;
 using GameStore.Data.Models;
-using GameStore.Models;
 
 namespace GameStore.Core.Serveces
 {
@@ -13,6 +13,37 @@ namespace GameStore.Core.Serveces
         public StoreServices(GameStoreDbContext _data)
         {
             this.data = _data;
+        }
+
+        public GameServiceModel All(string searchTerm = null, int indexPage = 1, int gamesPerPage = int.MaxValue)
+        {
+            var gamesQuery = data.Games.ToList();
+
+            if (!String.IsNullOrWhiteSpace(searchTerm))
+            {
+                gamesQuery = gamesQuery.Where(x => x.Name.ToLower().Contains(searchTerm.ToLower())).ToList();
+            }
+
+            var totalGames = gamesQuery.Count();
+            var games = gamesQuery
+                .Skip((indexPage - 1) * gamesPerPage)
+                .Take(gamesPerPage)
+                .Select(x => new StoreGamesViewModel
+            {
+                Name = x.Name,
+                ImageUrl = x.ImageUrl,
+                Price = x.Price
+            })
+                .ToList();
+
+            var model = new GameServiceModel()
+            {
+                
+                TotalGames = totalGames,
+                Games = games
+            };
+
+            return model;
         }
 
         public void Create(string name, string developer, string publisher, string description, decimal price, string imageUrl, DateTime releasedate, List<int> genreIds)

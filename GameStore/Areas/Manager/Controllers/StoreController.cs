@@ -1,4 +1,5 @@
 ﻿using GameStore.Core.Models;
+using GameStore.Core.Models.Manager;
 using GameStore.Core.Serveces.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,11 +44,15 @@ namespace GameStore.Areas.Manager.Controllers
             return RedirectToAction("All");
         }
 
-        public IActionResult All()
+        public IActionResult All(AllGamesManagerModel model)
         {
-            var games = service.GetGames();
+            var result = service.All(model.SearchTerm, model.IndexPage, AllGamesManagerModel.gamesPerPage);
 
-            return View(games);
+            model.TotalGames = result.TotalGames;
+            model.Games = result.Games;
+ 
+
+            return View(model);
         }
 
         public IActionResult AddGame()
