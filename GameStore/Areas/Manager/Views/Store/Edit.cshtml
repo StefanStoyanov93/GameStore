@@ -1,5 +1,11 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model GameFormModel
+
 @{
+	ViewData["Title"] = "Edit";
+}
+
+<partial name="_GameFormPartial" model="@Model"/>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
 }
