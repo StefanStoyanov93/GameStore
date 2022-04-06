@@ -30,6 +30,7 @@ namespace GameStore.Core.Serveces
                 .Take(gamesPerPage)
                 .Select(x => new StoreGamesViewModel
             {
+                Id = x.Id.ToString(),
                 Name = x.Name,
                 ImageUrl = x.ImageUrl,
                 Price = x.Price
@@ -82,6 +83,7 @@ namespace GameStore.Core.Serveces
             => data.Games
             .Select(x => new StoreGamesViewModel
             {
+                Id = x.Id.ToString(),
                 Name = x.Name,
                 ImageUrl = x.ImageUrl,
                 Price = x.Price,

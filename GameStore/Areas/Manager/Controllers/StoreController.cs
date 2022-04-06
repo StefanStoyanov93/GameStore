@@ -7,31 +7,33 @@ namespace GameStore.Areas.Manager.Controllers
 {
     public class StoreController : ManagerController
     {
-        private readonly IStoreServices service;
+        private readonly IStoreServices storeService;
+        private readonly IGameService gameService;
 
-        public StoreController(IStoreServices _service)
+        public StoreController(IStoreServices _storeService, IGameService _gameService)
         {
-            this.service = _service;
+            this.storeService = _storeService;  
+            this.gameService = _gameService;
         }
 
 
         [HttpPost]
-        public IActionResult AddGame(AddGameFormModel game)
+        public IActionResult AddGame(GameFormModel game)
         {
 
-            if (service.NameExists(game.Name))
+            if (storeService.NameExists(game.Name))
             {
                 ModelState.AddModelError(nameof(game.Name), "Game with this name already exist in the database.");
             }
 
             if (!ModelState.IsValid)
             {
-                game.Genres = service.GetGenres();
+                game.Genres = storeService.GetGenres();
 
                 return View(game);
             }
 
-            service.Create(game.Name, 
+            storeService.Create(game.Name, 
                 game.Developer, 
                 game.Publisher, 
                 game.Description, 
@@ -46,7 +48,7 @@ namespace GameStore.Areas.Manager.Controllers
 
         public IActionResult All(AllGamesManagerModel model)
         {
-            var result = service.All(model.SearchTerm, model.IndexPage, AllGamesManagerModel.gamesPerPage);
+            var result = storeService.All(model.SearchTerm, model.IndexPage, AllGamesManagerModel.gamesPerPage);
 
             model.TotalGames = result.TotalGames;
             model.Games = result.Games;
@@ -57,10 +59,36 @@ namespace GameStore.Areas.Manager.Controllers
 
         public IActionResult AddGame()
         {
-            return View(new AddGameFormModel
+            return View(new GameFormModel
             {
-                Genres = service.GetGenres()
+                Genres = storeService.GetGenres()
             });
+        }
+
+        public IActionResult Edit(string id)
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Remove(string id)
+        {
+            var game = gameService.GetGameForDelete(id);
+
+            return View(game);
+        }
+
+        [HttpPost, ActionName(nameof(Remove))]
+        public IActionResult RemoveConfirmed(string id)
+        {
+            bool IsDeleated = gameService.Delete(id);
+
+            if (!IsDeleated)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction(nameof(All));
         }
     }
 }

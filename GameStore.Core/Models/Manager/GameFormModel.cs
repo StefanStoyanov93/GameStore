@@ -4,7 +4,7 @@ using static GameStore.Data.DataConstants;
 
 namespace GameStore.Core.Models
 {
-    public class AddGameFormModel
+    public class GameFormModel
     {
         [Required]
         [StringLength(GameNameMaxLength, ErrorMessage = "The game name must be between {2} and {1} characters long!", MinimumLength = GameNameMinLength)]

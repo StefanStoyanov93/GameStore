@@ -22,8 +22,8 @@
 				<div class="card-body">
 					<h5 class="card-title">@game.Name</h5>
 					<p class="card-text">@String.Format("{0:0.00}", game.Price)$</p>
-					<a class="btn btn-primary" asp-area="Manager" asp-controller="Store" asp-action="Edit">Edit</a>
-					<a class="btn btn-primary" asp-area="Manager" asp-controller="Store" asp-action="Remove">Remove</a>
+					<a class="btn btn-warning" asp-area="Manager" asp-controller="Store" asp-action="Edit" asp-route-id="@game.Id">Edit</a>
+					<a class="btn btn-danger"  asp-area="Manager" asp-controller="Store" asp-action="Remove" asp-route-id="@game.Id">Remove</a>
 				</div>
 			</div>
 		</div>
@@ -42,21 +42,19 @@
 }
 
 <nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-center">
-    <li class="page-item @(Model.IndexPage == 1 ? "disabled" : string.Empty)">
-        <a class="page-link" asp-area="Manager" 
-	  asp-controller="Store" 
-	  asp-action="All"
-	  asp-route-indexPage="@(Model.IndexPage - 1)"
-	  >Previous</a>
-    </li>
-    <li class="page-item @(lastButton ? "disabled" : string.Empty)">
-      <a class="page-link" asp-area="Manager" 
-	  asp-controller="Store" 
-	  asp-action="All"
-	  asp-route-indexPage="@(Model.IndexPage + 1)"
-	  >Next</a>
-    </li>
-  </ul>
+	<ul class="pagination justify-content-center">
+		<li class="page-item @(Model.IndexPage == 1 ? "disabled" : string.Empty)">
+			<a class="page-link" asp-area="Manager"
+			   asp-controller="Store"
+			   asp-action="All"
+			   asp-route-indexPage="@(Model.IndexPage - 1)">Previous</a>
+		</li>
+		<li class="page-item @(lastButton ? "disabled" : string.Empty)">
+			<a class="page-link" asp-area="Manager"
+			   asp-controller="Store"
+			   asp-action="All"
+			   asp-route-indexPage="@(Model.IndexPage + 1)">Next</a>
+		</li>
+	</ul>
 </nav>
 
