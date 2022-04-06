@@ -1,4 +1,5 @@
-﻿using GameStore.Core.Serveces.Contracts;
+﻿using GameStore.Core.Models;
+using GameStore.Core.Serveces.Contracts;
 using GameStore.Data.Data;
 using GameStore.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -25,9 +26,9 @@ namespace GameStore.Controllers
         }
 
         [Authorize]
-        public IActionResult Wishlist()
+        public IActionResult Wishlist(List<StoreGamesViewModel> model)
         {
-            return View();
+            return View(model);
         }
     }
 }

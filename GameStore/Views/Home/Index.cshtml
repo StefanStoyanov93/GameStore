@@ -1,10 +1,7 @@
-﻿@model List<IndexGameModel>
+﻿@model List<BaseGameModel>
 
 @{
 	ViewData["Title"] = "Home Page";
-	var firstGame = Model[0];
-	var secondGame = Model[1];
-	var thirdGame = Model[2];
 }
 
 <div class="text-center">
@@ -17,8 +14,9 @@
 		<p class="display-4">We are sorry, there are currently no games available.</p>
 	</div>
 }
-
-<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+else
+{
+	<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
 	<div class="carousel-inner">
 		@for (int i = 0; i < Model.Count; i++)
 		{
@@ -26,7 +24,7 @@
 			<div class="carousel-item @(i == 0 ? "active" : string.Empty)">
 				<img class="d-block w-100" src="@game.Image" alt="@game.Name">
 				<div class="carousel-caption d-none d-md-block">
-					<h5><a class="btn btn-primary" asp-controller="Cars" asp-action="Details" asp-route-id="@game.Id">@game.Name</a></h5>
+					<h5><a class="btn btn-primary" asp-controller="App" asp-action="Details" asp-route-id="@game.Id">@game.Name</a></h5>
 				</div>
 			</div>
 		}
@@ -40,3 +38,4 @@
 		<span class="visually-hidden">Next</span>
 	</button>
 </div>
+}

@@ -1,14 +1,35 @@
-﻿@model List<WishlistViewModel>
+﻿@model List<StoreGamesViewModel>
 
-<h1>GAMES</h1>
-<div class="row col-md-4">
+@{
+	ViewData["Title"] = "LevelUp Game Store | Wishlist | Download and Play";
+}
 
-	<div class="card" style="width: 18rem;">
-		<img src="" class="card-img-top" alt="...">
-		<div class="card-body">
-			<h5 class="card-title">ss</h5>
-			<p class="card-text">ss</p>
-			<a href="#" class="btn btn-primary">Go somewhere</a>
-		</div>
-	</div>
+<div class="text-center">
+	<h1 class="display-4">@User.Identity?.Name's Wishlist</h1>
 </div>
+
+@if (!Model.Any())
+{
+	<div class="mt-4 p-5 text-white text-center rounded">
+		<h2>You haven't added anything to yout wishlist yet.</h2>
+		<p>
+			<a asp-controller="Store" asp-action="Browse" class="btn btn-primary btn-lg" role="button">Shop for Games</a>
+		</p>
+	</div>
+}
+else
+{
+	<div class="row col-md-4">
+		@foreach (var game in Model)
+		{
+			<div class="card" style="width: 18rem;">
+				<img src=@game.ImageUrl class="card-img-top" alt="...">
+				<div class="card-body">
+					<h5 class="card-title">@game.Name</h5>
+					<p class="card-text">@game.Price$</p>
+					<a href="#" class="btn btn-primary">Go somewhere</a>
+				</div>
+			</div>
+		}
+	</div>
+}

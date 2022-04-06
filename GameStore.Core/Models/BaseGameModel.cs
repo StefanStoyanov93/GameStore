@@ -1,6 +1,6 @@
 ﻿namespace GameStore.Core.Models
 {
-    public class IndexGameModel
+    public class BaseGameModel
     {
         public string Id { get; init; }
         public string Name { get; init; }

@@ -13,7 +13,7 @@ namespace GameStore.Core.Serveces.Contracts
             DateTime releasedate,
             List<int> genreIds);
 
-        List<IndexGameModel> GetIndexGames();
+        List<BaseGameModel> GetIndexGames();
 
         bool Delete(string id);
 

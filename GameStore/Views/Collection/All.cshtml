@@ -1,5 +1,39 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using GameStore.Data.Models
+@using Microsoft.AspNetCore.Identity
+@model List<BaseGameModel>
+@inject SignInManager<User> SignInManager
+
 @{
+	ViewData["Title"] = "LevelUp Game Store | My Collection | Download and Play";
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+	<div class="text-center">
+		<h1 class="display-4">@User.Identity?.Name's Game Collection</h1>
+	</div>
+}
+
+@if (!Model.Any())
+{
+	if (!SignInManager.IsSignedIn(User))
+	{
+		<div class="mt-4 p-5 bg-dark text-white text-center rounded">
+			<h2>You are currently not signed in. If you want to access your library of games, Sign in!</h2>
+			<p>
+				<a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary btn-lg" role="button">Sign In</a>
+			</p>
+		</div>
+	}
+	else
+	{
+		<div class="mt-4 p-5 text-white text-center rounded">
+			<h2>There are no games in your collection.</h2>
+			<h4>If you want to add a game to your library</h4>
+			<p>
+				<a asp-area="" asp-controller="Store" asp-action="Browse" class="btn btn-primary btn-lg" role="button">Browse the LevelUp store!</a>
+			</p>
+			<div class="text-center pt-4 text-white">If you already have a game in your mind <a asp-controller="Store" asp-action="Wishlist" class="text-light">Check Wishlist</a> </div>
+		</div>
+	}
 }

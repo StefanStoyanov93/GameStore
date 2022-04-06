@@ -5,6 +5,16 @@
 
 <h1 class="align-content-center">GAMES</h1>
 
+@if (!Model.Games.Any())
+{
+	<div class="mt-4 p-5 bg-primary text-white rounded">
+		<h3>There are no games in the system currently available.</h3>
+		<p>
+			<a asp-area="Manager" asp-controller="Store" asp-action="AddGame" class="btn btn-primary btn-lg" role="button">Add game!</a>
+		</p>
+	</div>
+}
+
 <div class="row mb-3 col-md-3">
 	<form method="get">
 		<div class="form-group">
@@ -23,7 +33,7 @@
 					<h5 class="card-title">@game.Name</h5>
 					<p class="card-text">@String.Format("{0:0.00}", game.Price)$</p>
 					<a class="btn btn-warning" asp-area="Manager" asp-controller="Store" asp-action="Edit" asp-route-id="@game.Id">Edit</a>
-					<a class="btn btn-danger"  asp-area="Manager" asp-controller="Store" asp-action="Remove" asp-route-id="@game.Id">Remove</a>
+					<a class="btn btn-danger" asp-area="Manager" asp-controller="Store" asp-action="Remove" asp-route-id="@game.Id">Remove</a>
 				</div>
 			</div>
 		</div>

@@ -140,10 +140,10 @@ namespace GameStore.Core.Serveces
             return model;
         }
 
-        public List<IndexGameModel> GetIndexGames()
+        public List<BaseGameModel> GetIndexGames()
             => data.Games
             .OrderByDescending(x => x.Id)
-            .Select(x => new IndexGameModel
+            .Select(x => new BaseGameModel
             {
                 Id = x.Id.ToString(),
                 Name = x.Name,

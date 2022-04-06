@@ -1,17 +1,28 @@
 ﻿@model List<StoreGamesViewModel>
 
-<h1>GAMES</h1>
-<div class="row col-md-4">
-	@foreach (var game in Model)
+@{
+	ViewData["Title"] = "LevelUp Game Store | Browse";
+}
+
+@if (!Model.Any())
 {
-	<div class="card" style="width: 18rem;">
-		<img src=@game.ImageUrl class="card-img-top" alt="...">
-		<div class="card-body">
-			<h5 class="card-title">@game.Name</h5>
-			<p class="card-text">@game.Price$</p>
-			<a href="#" class="btn btn-primary">Go somewhere</a>
-		</div>
+	<div class="text-center">
+		<h1 class="display-4">Level Up Game Store!</h1>
+		<p>We are sorry, there are currently no games available.</p>
 	</div>
 }
+
+<div class="row col-md-4">
+	@foreach (var game in Model)
+	{
+		<div class="card" style="width: 18rem;">
+			<img src=@game.ImageUrl class="card-img-top" alt="...">
+			<div class="card-body">
+				<h5 class="card-title">@game.Name</h5>
+				<p class="card-text">@game.Price$</p>
+				<a href="#" class="btn btn-primary">Go somewhere</a>
+			</div>
+		</div>
+	}
 </div>
 
