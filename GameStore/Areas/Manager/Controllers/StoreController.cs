@@ -33,7 +33,7 @@ namespace GameStore.Areas.Manager.Controllers
                 return View(game);
             }
 
-            storeService.Create(game.Name, 
+            gameService.Create(game.Name, 
                 game.Developer, 
                 game.Publisher, 
                 game.Description, 
@@ -67,7 +67,59 @@ namespace GameStore.Areas.Manager.Controllers
 
         public IActionResult Edit(string id)
         {
-            return View();
+            var model = gameService.Details(id);
+
+            if (model == null)
+            {
+                return BadRequest();
+            }
+
+            var genres = storeService.GetGenres();
+
+            var genresIds = model.Genres.Select(x => x.Id).ToList();
+
+            var game = new GameFormModel
+            {
+                Name = model.Name,
+                Developer = model.Developer,
+                Description = model.Description,
+                Publisher = model.Publisher,
+                ReleaseDate = model.ReleaseDate,
+                Price = model.Price,
+                ImageUrl = model.ImageUrl,
+                GenreIds = genresIds,
+                Genres = genres
+            };
+
+            return View(game);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(string id, GameFormModel game)
+        {
+            if (!ModelState.IsValid)
+            {
+                game.Genres = storeService.GetGenres();
+
+                return View(game);
+            }
+
+            var edited = gameService.Edit(id, 
+                game.Name, 
+                game.Developer, 
+                game.Publisher, 
+                game.Description, 
+                game.ImageUrl, 
+                game.Price,
+                game.ReleaseDate,
+                game.GenreIds);
+
+            if (!edited)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction(nameof(All));
         }
 
         [HttpGet]

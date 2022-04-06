@@ -47,38 +47,6 @@ namespace GameStore.Core.Serveces
             return model;
         }
 
-        public void Create(string name, string developer, string publisher, string description, decimal price, string imageUrl, DateTime releasedate, List<int> genreIds)
-        {
-            var gameData = new Game
-            {
-                Name = name,
-                Developer = developer,
-                Publisher = publisher,
-                Description = description,
-                Price = price,
-                ImageUrl = imageUrl,
-                ReleaseDate = releasedate
-            };
-
-            List<GameGenre> genreList = new List<GameGenre>();
-
-            foreach (var id in genreIds)
-            {
-                var gameGenre = new GameGenre
-                {
-                    Game = gameData,
-                    GenreId = id
-                };
-
-                genreList.Add(gameGenre);
-            }
-
-            data.Add(gameData);
-            data.AddRange(genreList);
-
-            data.SaveChanges();
-        }
-
         public List<StoreGamesViewModel> GetGames()
             => data.Games
             .Select(x => new StoreGamesViewModel
