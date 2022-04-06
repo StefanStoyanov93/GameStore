@@ -15,14 +15,17 @@
 <div class="row col-md-4">
 	@foreach (var game in Model)
 	{
-		<div class="card" style="width: 18rem;">
-			<img src=@game.ImageUrl class="card-img-top" alt="...">
-			<div class="card-body">
-				<h5 class="card-title">@game.Name</h5>
-				<p class="card-text">@game.Price$</p>
-				<a href="#" class="btn btn-primary">Go somewhere</a>
+		<a asp-controller="App" asp-action="Details" asp-route-id="@game.Id" style="text-decoration:none" class="text-white">
+			<div class="card" style="width: 14rem; background-color: transparent;">
+				<img src=@game.ImageUrl class="card-img-top" alt="..." style="border-image-width: 80px;">
+				<div class="card-body">
+					<h5 class="card-title">@game.Name</h5>
+					<p class="card-text">@game.Price$</p>
+					@*<a asp-controller="App" asp-action="Details" class="btn btn-primary">Go somewhere</a>*@
+				</div>
 			</div>
-		</div>
+		</a>
+
 	}
 </div>
 
