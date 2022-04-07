@@ -4,6 +4,6 @@
     {
         public int TotalGames { get; set; }
 
-        public IEnumerable<StoreGamesViewModel> Games { get; set; }
+        public IEnumerable<BaseGameModel> Games { get; set; }
     }
 }

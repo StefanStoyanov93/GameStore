@@ -23,8 +23,3 @@ body {
     height: 20vw;
     object-fit: fill;
 }
-
-.w-100 {
-    width: 100% !important;
-    height: 105vh;
-}

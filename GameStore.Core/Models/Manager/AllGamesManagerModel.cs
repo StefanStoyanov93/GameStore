@@ -13,8 +13,6 @@ namespace GameStore.Core.Models.Manager
 
         public int TotalGames { get; set; }
 
-        public int TotalPages { get; set; }
-
-        public IEnumerable<StoreGamesViewModel> Games { get; set; }
+        public IEnumerable<BaseGameModel> Games { get; set; }
     }
 }

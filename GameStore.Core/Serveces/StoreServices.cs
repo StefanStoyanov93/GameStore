@@ -28,12 +28,11 @@ namespace GameStore.Core.Serveces
             var games = gamesQuery
                 .Skip((indexPage - 1) * gamesPerPage)
                 .Take(gamesPerPage)
-                .Select(x => new StoreGamesViewModel
+                .Select(x => new BaseGameModel
             {
                 Id = x.Id.ToString(),
                 Name = x.Name,
-                ImageUrl = x.ImageUrl,
-                Price = x.Price
+                Image = x.ImageUrl,
             })
                 .ToList();
 
