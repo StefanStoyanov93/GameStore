@@ -11,6 +11,14 @@ namespace GameStore.Core.Serveces.Contracts
 
         List<StoreGamesViewModel> GetGames();
 
-        GameServiceModel All(string searchTerm = null, int indexPage = 1, int gamesPerPage = int.MaxValue);
+        GameServiceManagerModel All(string searchTerm = null, 
+            int indexPage = 1, 
+            int gamesPerPage = int.MaxValue);
+
+        GameServiceModel BrowseAll(string searchTerm = null,
+            string genreName = null,
+            GameSorting sorting = GameSorting.ReleaseDate, 
+            int indexPage = 1, 
+            int gamesPerPage = int.MaxValue);
     }
 }

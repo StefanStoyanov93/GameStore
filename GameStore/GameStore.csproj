@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-GameStore-CD7C723D-F5E7-42EF-941B-A139A702F5C8</UserSecretsId>
   </PropertyGroup>

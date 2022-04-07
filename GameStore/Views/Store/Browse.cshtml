@@ -1,10 +1,10 @@
-﻿@model List<StoreGamesViewModel>
+﻿@model AllGamesQueryModel
 
 @{
 	ViewData["Title"] = "LevelUp Game Store | Browse";
 }
 
-@if (!Model.Any())
+@if (!Model.Games.Any())
 {
 	<div class="text-center">
 		<h1 class="display-4">Level Up Game Store!</h1>
@@ -14,30 +14,44 @@
 
 @*<div class="container-fluid">*@
 
-<div class="row mb-3 col-md-3 mt-5">
-	<form method="get">
+
+<form method="get">
+	<div class="row mb-3 mt-5 col-md-4">
 		<div class="form-group">
-			<label class="form-label"></label>
-			<input class="form-control bg-dark text-white" placeholder="Search">
+			<label asp-for="@Model.SearchTerm" class="form-label"></label>
+			<input asp-for="@Model.SearchTerm" class="form-control bg-dark text-white" placeholder="Search">
 		</div>
-	</form>
-</div>
+		<div class="form-group">
+			<label asp-for="GenreName"></label>
+			<select asp-for="GenreName" class="form-control">
+				<option value="">All</option>
+
+				@foreach(var genre in Model.Genres)
+				{
+					<option value="@genre.GenreName">@genre.GenreName</option>
+				}
+			</select>
+		</div>
+	</div>
+</form>
+
 
 <form method="get">
 	<div class="row dropdown">
 		<p>
 			Sort By:
-			<select class="form-control bg-dark text-light">
+			<label asp-for="Sorting"></label>
+			<select asp-for="@Model.Sorting" class="form-control bg-dark text-light">
 				<option value="0" selected>Date Created</option>
-				<option value="1">Year</option>
-				<option value="2">Brand And Model</option>
+				<option value="1">Price: High to Low</option>
+				<option value="2">Price: Low to High</option>
 			</select>
 		</p>
 	</div>
 </form>
 
 <div class="row" style:>
-	@foreach (var game in Model)
+	@foreach (var game in Model.Games)
 	{
 		<div class="col-6 col-sm-6 col-md-4 col-lg-3">
 			<div class="card mb-2" style="width: 16rem; background-color: transparent; border: none;">
@@ -52,5 +66,31 @@
 	}
 </div>
 @*</div>*@
+@{
+	var previousPage = Model.IndexPage - 1;
+	if (previousPage < 1)
+	{
+		previousPage = 1;
+	}
 
+	var totalPages = (int)Math.Ceiling(Model.TotalGames / (double)AllGamesQueryModel.gamesPerPage);
+	var lastButton = Model.IndexPage == totalPages;
+}
+
+<nav aria-label="Page navigation example">
+	<ul class="pagination justify-content-center">
+		<li class="page-item @(Model.IndexPage == 1 ? "disabled" : string.Empty)">
+			<a class="page-link" asp-area=""
+			   asp-controller="Store"
+			   asp-action="Browse"
+			   asp-route-indexPage="@(Model.IndexPage - 1)">Previous</a>
+		</li>
+		<li class="page-item @(lastButton ? "disabled" : string.Empty)">
+			<a class="page-link" asp-area=""
+			   asp-controller="Store"
+			   asp-action="Browse"
+			   asp-route-indexPage="@(Model.IndexPage + 1)">Next</a>
+		</li>
+	</ul>
+</nav>
 

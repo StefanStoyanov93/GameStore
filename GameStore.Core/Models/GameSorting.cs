@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GameStore.Core.Models
+﻿namespace GameStore.Core.Models
 {
-    public enum GameSorting
+	public enum GameSorting
     {
         ReleaseDate = 0,
         PriceHigh = 1,

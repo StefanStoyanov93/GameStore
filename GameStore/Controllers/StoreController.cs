@@ -9,18 +9,26 @@ namespace GameStore.Controllers
 {
     public class StoreController : Controller
     {
-        private readonly IStoreServices service;
+        private readonly IStoreServices storeService;
 
         public StoreController(IStoreServices _service)
         {
-            service = _service;
+            storeService = _service;
         }
 
-
-        [HttpGet]
-        public IActionResult Browse()
+        public IActionResult Browse([FromQuery] AllGamesQueryModel games)
         {
-            var games = service.GetGames();
+            var modelResult = storeService.BrowseAll(games.SearchTerm, 
+                games.GenreName, 
+                games.Sorting, 
+                games.IndexPage, 
+                AllGamesQueryModel.gamesPerPage );
+
+            games.TotalGames = modelResult.TotalGames;
+            games.Games = modelResult.Games;
+
+            games.Genres = storeService.GetGenres();
+
 
             return View(games);
         }

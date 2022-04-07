@@ -1,6 +1,6 @@
 ﻿namespace GameStore.Core.Models.Manager
 {
-    public class GameServiceModel
+    public class GameServiceManagerModel
     {
         public int TotalGames { get; set; }
 
