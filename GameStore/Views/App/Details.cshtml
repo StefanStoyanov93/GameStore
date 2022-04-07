@@ -4,10 +4,10 @@
 	ViewData["Title"] = "Details | " + @Model.Name;
 }
 
-<div class="container col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+<div class="container-fluid">
 	<h2>@Model.Name</h2>
 	<div class="row" style="float-right">
-		<img src=@Model.ImageUrl class="card-img-top" alt="">
+		<img src=@Model.ImageUrl alt="">
 		<div class="bg-white">
 			<p>
 				@Model.Description

@@ -12,20 +12,45 @@
 	</div>
 }
 
-<div class="row col-md-4">
+@*<div class="container-fluid">*@
+
+<div class="row mb-3 col-md-3 mt-5">
+	<form method="get">
+		<div class="form-group">
+			<label class="form-label"></label>
+			<input class="form-control bg-dark text-white" placeholder="Search">
+		</div>
+	</form>
+</div>
+
+<form method="get">
+	<div class="row dropdown">
+		<p>
+			Sort By:
+			<select class="form-control bg-dark text-light">
+				<option value="0" selected>Date Created</option>
+				<option value="1">Year</option>
+				<option value="2">Brand And Model</option>
+			</select>
+		</p>
+	</div>
+</form>
+
+<div class="row" style:>
 	@foreach (var game in Model)
 	{
-		<a asp-controller="App" asp-action="Details" asp-route-id="@game.Id" style="text-decoration:none" class="text-white">
-			<div class="card" style="width: 14rem; background-color: transparent;">
-				<img src=@game.ImageUrl class="card-img-top" alt="..." style="border-image-width: 80px;">
-				<div class="card-body">
-					<h5 class="card-title">@game.Name</h5>
+		<div class="col-6 col-sm-6 col-md-4 col-lg-3">
+			<div class="card mb-2" style="width: 16rem; background-color: transparent; border: none;">
+				<img src=@game.ImageUrl class="card-img-top" alt="...">
+				<div class="card-body text-white" style="font: bold">
+					<p class="card-title">@game.Name</p>
 					<p class="card-text">@game.Price$</p>
-					@*<a asp-controller="App" asp-action="Details" class="btn btn-primary">Go somewhere</a>*@
+					<a asp-controller="App" asp-action="Details" class="btn btn-primary" style="width: 100%; display: block;">Check It!</a>
 				</div>
 			</div>
-		</a>
-
+		</div>
 	}
 </div>
+@*</div>*@
+
 

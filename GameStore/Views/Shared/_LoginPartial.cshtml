@@ -14,7 +14,10 @@
 			<button class="dropbtn bg-dark">@User.Identity?.Name</button>
 			<div class="dropdown-content bg-dark">
 				<a class="text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account</a>
-				<a class="text-white" asp-area="" asp-controller="Store" asp-action="Wishlist">Wishlist</a>				
+				@if (!User.IsInRole("DataManager"))
+				{
+					<a class="text-white" asp-area="" asp-controller="Store" asp-action="Wishlist">Wishlist</a>		
+				}			
 				<form class="form" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
 					<button type="submit" class="logout btn btn-link text-danger">Logout</button>
 				</form>
