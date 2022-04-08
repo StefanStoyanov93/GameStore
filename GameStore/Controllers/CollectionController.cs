@@ -25,6 +25,7 @@ namespace GameStore.Controllers
 
             query.TotalGames = modelResult.TotalGames;
             query.Games = modelResult.Games;
+            query.GamesExist = modelResult.GameExist;
 
             query.Genres = storeService.GetGenres();
 

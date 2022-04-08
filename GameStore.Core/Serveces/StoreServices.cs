@@ -132,6 +132,12 @@ namespace GameStore.Core.Serveces
 		{
             var gamesQuery = data.Games.Where(x => x.GameOwners.Any(g => g.UserId == userId)).AsQueryable();
 
+            bool gameExist = false; 
+			if (gamesQuery.Count() == 0)
+			{
+                gameExist = true;
+			}
+
             if (genreId != 0)
             {
                 gamesQuery = gamesQuery.Where((x) => x.Genres.Any(g => g.GenreId == genreId)).AsQueryable();
@@ -176,7 +182,7 @@ namespace GameStore.Core.Serveces
 
             var model = new GameServiceModel()
             {
-
+                GameExist = gameExist,
                 TotalGames = totalGames,
                 Games = games
             };

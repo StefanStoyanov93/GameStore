@@ -17,7 +17,9 @@ namespace GameStore.Core.Models
 
         public int TotalGames { get; set; }
 
-        public IEnumerable<GenreSortingModel> Genres { get; set; }
+		public bool GamesExist { get; set; }
+
+		public IEnumerable<GenreSortingModel> Genres { get; set; }
 
         public IEnumerable<StoreGamesViewModel> Games { get; set; }
     }

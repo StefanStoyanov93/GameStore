@@ -15,7 +15,7 @@
 	</div>
 }
 
-@if (!Model.Games.Any())
+@if (@Model.GamesExist)
 {
 	if (!SignInManager.IsSignedIn(User))
 	{
@@ -39,4 +39,7 @@
 	}
 }
 
-<partial name="_BrowseAllPartial" model="@Model"/>
+	<partial name="_BrowseAllPartial" model="@Model"/>
+
+
+
