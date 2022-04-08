@@ -128,6 +128,62 @@ namespace GameStore.Core.Serveces
             return true;
 		}
 
+		public GameServiceModel Collection(string searchTerm = null, int genreId = 0, GameSorting sorting = GameSorting.ReleaseDate, int indexPage = 1, int gamesPerPage = int.MaxValue, string userId = null)
+		{
+            var gamesQuery = data.Games.Where(x => x.GameOwners.Any(g => g.UserId == userId)).AsQueryable();
+
+            if (genreId != 0)
+            {
+                gamesQuery = gamesQuery.Where((x) => x.Genres.Any(g => g.GenreId == genreId)).AsQueryable();
+            }
+
+            if (!String.IsNullOrWhiteSpace(searchTerm))
+            {
+                gamesQuery = gamesQuery.Where(x =>
+                    x.Name.ToLower().Contains(searchTerm.ToLower()) ||
+                    x.Developer.ToLower().Contains(searchTerm.ToLower()) ||
+                    x.Publisher.ToLower().Contains(searchTerm.ToLower()))
+                    .AsQueryable();
+            }
+
+
+
+            if (sorting == GameSorting.ReleaseDate)
+            {
+                gamesQuery = gamesQuery.OrderByDescending(c => c.ReleaseDate).AsQueryable();
+            }
+            else if (sorting == GameSorting.PriceHigh)
+            {
+                gamesQuery = gamesQuery.OrderByDescending(c => c.Price).AsQueryable();
+            }
+            else if (sorting == GameSorting.PriceLow)
+            {
+                gamesQuery = gamesQuery.OrderBy(c => c.Price).AsQueryable();
+            }
+
+            var totalGames = gamesQuery.Count();
+            var games = gamesQuery
+                .Skip((indexPage - 1) * gamesPerPage)
+                .Take(gamesPerPage)
+                .Select(x => new StoreGamesViewModel
+                {
+                    Id = x.Id.ToString(),
+                    Name = x.Name,
+                    ImageUrl = x.ImageUrl,
+                    Price = x.Price
+                })
+                .ToList();
+
+            var model = new GameServiceModel()
+            {
+
+                TotalGames = totalGames,
+                Games = games
+            };
+
+            return model;
+        }
+
 		public List<StoreGamesViewModel> GetGames()
             => data.Games
             .Select(x => new StoreGamesViewModel

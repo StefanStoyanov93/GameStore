@@ -15,11 +15,13 @@ namespace GameStore.Controllers
 
         public IActionResult All(AllGamesQueryModel query)
         {
-            var modelResult = storeService.Browse(query.SearchTerm,
+            var userId = User.GetUserId();
+            var modelResult = storeService.Collection(query.SearchTerm,
                   query.GenreId,
                   query.Sorting,
                   query.IndexPage,
-                  AllGamesQueryModel.gamesPerPage);
+                  AllGamesQueryModel.gamesPerPage,
+                  userId);
 
             query.TotalGames = modelResult.TotalGames;
             query.Games = modelResult.Games;
