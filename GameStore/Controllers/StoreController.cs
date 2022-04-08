@@ -16,21 +16,22 @@ namespace GameStore.Controllers
             storeService = _service;
         }
 
-        public IActionResult Browse([FromQuery] AllGamesQueryModel games)
+        [HttpGet]
+        public IActionResult Browse(AllGamesQueryModel query)
         {
-            var modelResult = storeService.BrowseAll(games.SearchTerm, 
-                games.GenreName, 
-                games.Sorting, 
-                games.IndexPage, 
+            var modelResult = storeService.Browse(query.SearchTerm,
+                query.GenreId,
+                query.Sorting,
+                query.IndexPage, 
                 AllGamesQueryModel.gamesPerPage );
 
-            games.TotalGames = modelResult.TotalGames;
-            games.Games = modelResult.Games;
+            query.TotalGames = modelResult.TotalGames;
+            query.Games = modelResult.Games;
 
-            games.Genres = storeService.GetGenres();
+            query.Genres = storeService.GetGenres();
 
 
-            return View(games);
+            return View(query);
         }
 
         [Authorize]

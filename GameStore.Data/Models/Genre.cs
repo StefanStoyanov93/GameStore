@@ -11,6 +11,6 @@ namespace GameStore.Data.Models
         [StringLength(GenreNameMaxLength), MinLength(GenreNameMinLength)]
         public string GenreName { get; set; }
 
-        public ICollection<GameGenre> Games { get; set; } = new List<GameGenre>();
+        public virtual ICollection<GameGenre> Games { get; set; } = new List<GameGenre>();
     }
 }

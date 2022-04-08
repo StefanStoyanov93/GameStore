@@ -1,0 +1,12 @@
+﻿.buttons {
+    position: absolute;
+    right: 400px;
+    top: 800px;
+}
+
+.description {
+    color: white;
+    font-size: 40px;
+    position: absolute;
+    bottom: 300px;
+}

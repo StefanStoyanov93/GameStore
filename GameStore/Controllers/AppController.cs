@@ -6,10 +6,12 @@ namespace GameStore.Controllers
     public class AppController : Controller
     {
         private readonly IGameService gameService;
+        private readonly IStoreServices storeService;
 
-        public AppController(IGameService _gameService)
+        public AppController(IGameService _gameService, IStoreServices _storeServices)
         {
             this.gameService = _gameService;
+            this.storeService = _storeServices;
         }
 
         public IActionResult Details(string id)
@@ -18,5 +20,18 @@ namespace GameStore.Controllers
 
             return View(game);
         }
+
+        public IActionResult Buy(string id)
+		{
+            var userId = User.GetUserId();
+            var buy = this.storeService.Buy(id, userId);
+
+			if (!buy)
+			{
+                BadRequest();
+			}
+
+           return RedirectToAction("All", "Collection");
+		}
     }
 }

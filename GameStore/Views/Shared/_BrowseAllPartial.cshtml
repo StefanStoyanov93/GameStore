@@ -1,0 +1,85 @@
+﻿@model AllGamesQueryModel
+
+<form method="get">
+	<div class="row mt-5 mb-3">
+
+		<div class=" col-md-2">
+			<label asp-for="SearchTerm" class="text-white">Search</label>
+			<input asp-for="SearchTerm" class="form-control bg-dark text-white" placeholder="Keywords">
+		</div>
+
+		<div class=" col-md-4">
+			<label asp-for="GenreId" class="text-white">Filer by Genres:</label>
+			<select asp-for="GenreId" class="form-control bg-dark text-white" onchange="this.form.submit()">
+				<option value="0">All</option>
+
+				@foreach (var genre in Model.Genres)
+				{
+					<option value="@genre.Id">@genre.GenreName</option>
+				}
+			</select>
+		</div>
+
+	</div>
+</form>
+
+@if (!Model.Games.Any())
+{
+	<h2 class="text-center">No games found!</h2>
+}
+
+<form method="get">
+	<div class="row dropdown mt-3 mb-2">
+		<label asp-for="Sorting" class="text-white"></label>
+		<select asp-for="Sorting" class="form-control bg-dark text-light" onchange="this.form.submit()">
+			<option value="ReleaseDate" selected>Release Date</option>
+			<option value="PriceHigh">Price: High to Low</option>
+			<option value="PriceLow">Price: Low to High</option>
+		</select>
+	</div>
+</form>
+
+<div class="row" style:>
+	@foreach (var game in Model.Games)
+	{
+		<div class="col-6 col-sm-6 col-md-4 col-lg-3">
+			<div class="card mb-2" style="width: 16rem; background-color: transparent; border: none;">
+				<img src=@game.ImageUrl class="card-img-top" alt="...">
+				<div class="card-body text-white" style="font: bold">
+					<p class="card-title">@game.Name</p>
+					<p class="card-text">@game.Price$</p>
+					<a asp-controller="App" asp-action="Details" asp-route-id="@game.Id" class="btn btn-primary" style="width: 100%; display: block;">Check It!</a>
+				</div>
+			</div>
+		</div>
+	}
+</div>
+
+
+@{
+	var previousPage = Model.IndexPage - 1;
+	if (previousPage < 1)
+	{
+		previousPage = 1;
+	}
+
+	var totalPages = (int)Math.Ceiling(Model.TotalGames / (double)AllGamesQueryModel.gamesPerPage);
+	var lastButton = Model.IndexPage == totalPages;
+}
+
+<nav aria-label="Page navigation example">
+	<ul class="pagination justify-content-center">
+		<li class="page-item @(Model.IndexPage == 1 ? "disabled" : string.Empty)">
+			<a class="page-link" asp-area=""
+			   asp-controller="Store"
+			   asp-action="Browse"
+			   asp-route-indexPage="@(Model.IndexPage - 1)">Previous</a>
+		</li>
+		<li class="page-item @(lastButton ? "disabled" : string.Empty)">
+			<a class="page-link" asp-area=""
+			   asp-controller="Store"
+			   asp-action="Browse"
+			   asp-route-indexPage="@(Model.IndexPage + 1)">Next</a>
+		</li>
+	</ul>
+</nav>

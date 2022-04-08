@@ -6,7 +6,7 @@ using GameStore.Data.Models;
 
 namespace GameStore.Core.Serveces
 {
-    public class StoreServices : IStoreServices
+	public class StoreServices : IStoreServices
     {
         private readonly GameStoreDbContext data;
 
@@ -46,9 +46,19 @@ namespace GameStore.Core.Serveces
             return model;
         }
 
-        public GameServiceModel BrowseAll(string searchTerm = null, string genreName = null, GameSorting sorting = GameSorting.ReleaseDate, int indexPage = 1, int gamesPerPage = 0)
+        public GameServiceModel Browse(string searchTerm = null, 
+            int genreId = 0, 
+            GameSorting sorting = GameSorting.ReleaseDate, 
+            int indexPage = 1, 
+            int gamesPerPage = int.MaxValue)
         {
-            var gamesQuery = data.Games.ToList();
+
+            var gamesQuery = data.Games.AsQueryable();
+
+            if (genreId != 0)
+            {
+                gamesQuery = gamesQuery.Where((x) => x.Genres.Any(g => g.GenreId == genreId)).AsQueryable();
+            }
 
             if (!String.IsNullOrWhiteSpace(searchTerm))
             {
@@ -56,28 +66,25 @@ namespace GameStore.Core.Serveces
                     x.Name.ToLower().Contains(searchTerm.ToLower()) || 
                     x.Developer.ToLower().Contains(searchTerm.ToLower()) || 
                     x.Publisher.ToLower().Contains(searchTerm.ToLower()))
-                    .ToList();
+                    .AsQueryable();
             }
 
-            if(!string.IsNullOrWhiteSpace(genreName))
-            {
-                gamesQuery = gamesQuery.FindAll(x => x.Genres.All(x => x.Genre.GenreName == genreName)).ToList();
-            }
 
-            if (sorting == GameSorting.ReleaseDate)
-            {
-                gamesQuery = gamesQuery.OrderByDescending(c => c.ReleaseDate).ToList();
-            }
-            else if (sorting == GameSorting.PriceHigh)
-            {
-                gamesQuery = gamesQuery.OrderByDescending(c => c.Price).ToList();
-            }
-            else if (sorting == GameSorting.PriceLow)
-            {
-                gamesQuery = gamesQuery.OrderBy(c => c.Price).ToList();
-            }
 
-            var totalGames = gamesQuery.Count();
+			if (sorting == GameSorting.ReleaseDate)
+			{
+				gamesQuery = gamesQuery.OrderByDescending(c => c.ReleaseDate).AsQueryable();
+			}
+			else if (sorting == GameSorting.PriceHigh)
+			{
+				gamesQuery = gamesQuery.OrderByDescending(c => c.Price).AsQueryable();
+			}
+			else if (sorting == GameSorting.PriceLow)
+			{
+				gamesQuery = gamesQuery.OrderBy(c => c.Price).AsQueryable();
+			}
+
+			var totalGames = gamesQuery.Count();
             var games = gamesQuery
                 .Skip((indexPage - 1) * gamesPerPage)
                 .Take(gamesPerPage)
@@ -100,7 +107,28 @@ namespace GameStore.Core.Serveces
             return model;
         }
 
-        public List<StoreGamesViewModel> GetGames()
+		public bool Buy(string id, string userId)
+		{
+            var game  = data.Games.Where(x => x.Id.ToString() == id).FirstOrDefault();
+
+            if (game == null)
+			{
+                return false;
+			}
+
+            var ownedGame = new OwnedGame
+            {
+                UserId = userId,
+                Game = game
+            };
+
+            data.Add(ownedGame);
+            data.SaveChanges();
+
+            return true;
+		}
+
+		public List<StoreGamesViewModel> GetGames()
             => data.Games
             .Select(x => new StoreGamesViewModel
             {

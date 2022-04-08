@@ -37,8 +37,8 @@ namespace GameStore.Data.Models
         [Column(TypeName = "date")]
         public DateTime ReleaseDate { get; set; }
 
-        public ICollection<GameGenre> Genres { get; set; } = new List<GameGenre>();
-        public ICollection<OwnedGame> GameOwners { get; set; } = new List<OwnedGame>();
-        public ICollection<Wishlist> Wishlist { get; set; } = new List<Wishlist>();
+        public virtual ICollection<GameGenre> Genres { get; set; } = new List<GameGenre>();
+        public virtual ICollection<OwnedGame> GameOwners { get; set; } = new List<OwnedGame>();
+        public virtual ICollection<Wishlist> Wishlist { get; set; } = new List<Wishlist>();
     }
 }

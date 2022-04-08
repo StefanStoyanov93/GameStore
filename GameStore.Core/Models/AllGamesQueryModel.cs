@@ -1,16 +1,19 @@
-﻿namespace GameStore.Core.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GameStore.Core.Models
 {
     public class AllGamesQueryModel
     {
         public const int gamesPerPage = 12;
 
-        public string GenreName { get; init; }
+        public int GenreId { get; set; }
 
         public string SearchTerm { get; init; }
 
         public int IndexPage { get; init; } = 1;
 
-        public GameSorting Sorting { get; init; }
+        [Display(Name = "Sort By:")]
+        public GameSorting Sorting { get; set; }
 
         public int TotalGames { get; set; }
 

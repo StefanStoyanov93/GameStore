@@ -15,10 +15,12 @@ namespace GameStore.Core.Serveces.Contracts
             int indexPage = 1, 
             int gamesPerPage = int.MaxValue);
 
-        GameServiceModel BrowseAll(string searchTerm = null,
-            string genreName = null,
+        GameServiceModel Browse(string searchTerm = null,
+            int genreId = 0,
             GameSorting sorting = GameSorting.ReleaseDate, 
             int indexPage = 1, 
             int gamesPerPage = int.MaxValue);
-    }
+
+		bool Buy(string id, string userId);
+	}
 }
