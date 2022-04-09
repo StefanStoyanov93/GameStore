@@ -16,6 +16,8 @@
 
         public decimal Price { get; init; }
 
+        public OwnershipSorting Sorting { get; set; }
+
         public DateTime ReleaseDate { get; init; }
 
         public IEnumerable<GenreSortingModel> Genres { get; set; } = new List<GenreSortingModel>();

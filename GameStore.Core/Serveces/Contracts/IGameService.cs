@@ -29,5 +29,7 @@ namespace GameStore.Core.Serveces.Contracts
             decimal price, 
             DateTime releaseDate, 
             ICollection<int> genreIds);
+
+        OwnershipSorting GetOwnership(string id, string userId);
     }
 }

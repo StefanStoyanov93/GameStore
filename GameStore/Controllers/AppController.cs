@@ -1,4 +1,5 @@
-﻿using GameStore.Core.Serveces.Contracts;
+﻿using GameStore.Core.Models;
+using GameStore.Core.Serveces.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.Controllers
@@ -17,6 +18,9 @@ namespace GameStore.Controllers
         public IActionResult Details(string id)
         {
             var game = gameService.Details(id);
+
+            var userId = User.GetUserId();
+            game.Sorting = gameService.GetOwnership(id, userId);
 
             return View(game);
         }

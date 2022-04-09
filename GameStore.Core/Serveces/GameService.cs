@@ -82,7 +82,7 @@ namespace GameStore.Core.Serveces
                     GenreName = x.Genre.GenreName
                 }).ToList()
             })
-            .FirstOrDefault();
+            .First();
 
         public bool Edit(string id, string name, string developer, string publisher, string description, string imageUrl, decimal price, DateTime releaseDate, ICollection<int> genreIds)
         {
@@ -151,5 +151,22 @@ namespace GameStore.Core.Serveces
             })
             .Take(3)
             .ToList();
+
+        public OwnershipSorting GetOwnership(string id, string userId)
+        {
+
+            if (data.OwnedGames.Any(x => x.UserId == userId && x.GameId.ToString() == id))
+            {
+                return OwnershipSorting.Bought;
+            }
+            else if (data.Wishlists.Any(x => x.UserId == userId && x.GameId.ToString() == id))
+            {
+                return OwnershipSorting.Wishlisted;
+            }
+            else
+            {
+                return OwnershipSorting.NotBought;
+            }
+        }
     }
 }

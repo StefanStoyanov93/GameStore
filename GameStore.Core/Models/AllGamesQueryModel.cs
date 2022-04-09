@@ -6,7 +6,7 @@ namespace GameStore.Core.Models
     {
         public const int gamesPerPage = 12;
 
-        public int GenreId { get; set; }
+        public int GenreId { get; init; }
 
         public string SearchTerm { get; init; }
 

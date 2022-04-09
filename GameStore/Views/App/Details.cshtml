@@ -1,7 +1,7 @@
 ﻿@model GamesDetailsListModel
 
 @{
-	ViewData["Title"] = "Details";
+	ViewData["Title"] = "LevelUp Game Store | Details | " + @Model.Name;
 }
 
 <div style="margin: 25px 150px 50px;k">
@@ -12,22 +12,44 @@
 				<img src=@Model.ImageUrl alt="game picture" style="width: 100%; height: auto">
 			</div>
 		</div>
-	<div class="col-md-4" >
-		<div class="mb-5">
-			<h1 class="text-white">
-				@Model.Name
-			</h1>
-		</div>
-		@*<div class="row">*@
-						<form method="get">
-							<button asp-route-id="@Model.Id" asp-controller="App" asp-action="Buy" type="submit" class="w-100 btn btn-lg btn-primary" style="font-size: 20px;">BUY NOW</button> 
-							<button asp-route-id="@Model.Id" asp-controller="App" asp-action="Buy" type="button" class="w-100 btn btn-lg btn-primary">BUY</button>
-						</form>
-						
+
+		<div class="col-md-4">
+			<section class="mb-5">
+				<h1 class="text-white">
+					@Model.Name
+				</h1>
+			</section>
+
+			<form method="get" class="mb-3">
+				@if (User.IsInRole("DataManager"))
+				{
+					<a class="b" w-100 btn btn-lg btn-warning mb-3" asp-area="Manager" asp-controller="Store" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+					<a class="" w-100 btn btn-lg btn-danger" asp-area="Manager" asp-controller="Store" asp-action="Remove" asp-route-id="@Model.Id">Remove</a>
+				}
+				else
+				{
+					@if (Model.Sorting == OwnershipSorting.Bought)
+					{
+						<button asp-route-id="@Model.Id" asp-controller="App" asp-action="Download" type="button" class="w-100 btn btn-lg btn-primary mb-3">DOWNLOAD</button>
+					}
+					else
+					{
+						<button asp-route-id="@Model.Id" asp-controller="App" asp-action="Buy" type="submit" class="w-100 btn btn-lg btn-primary mb-3" style="font-size: 20px;">BUY NOW</button>
+
+						if (Model.Sorting == OwnershipSorting.Wishlisted)
+						{
+							<button asp-route-id="@Model.Id" asp-controller="App" asp-action="RemoveFromWishlist" type="button" class="w-100 btn btn-lg bg-dark">REMOVE FROM WISHLIST</button>
+						}
+						else
+						{
+							<button asp-route-id="@Model.Id" asp-controller="App" asp-action="AddToWishlist" type="button" class="w-100 btn btn-lg bg-dark">ADD TO WISHLIST</button>
+						}
+					}
+				}
+			</form>
+
 			<p class="bg-dark text-white" style="object-fit: cover; border:white; border-width:1.5px; border-style:solid;">
 				@Model.Description
 			</p>
-
-	@*	</div>*@
+		</div>
 	</div>
-</div>

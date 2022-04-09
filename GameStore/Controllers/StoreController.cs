@@ -36,9 +36,24 @@ namespace GameStore.Controllers
         }
 
         [Authorize]
-        public IActionResult Wishlist(List<StoreGamesViewModel> model)
+        public IActionResult Wishlist(AllGamesQueryModel query)
         {
-            return View(model);
+            var userId = User.GetUserId();
+            var modelResult = storeService.Collection(query.SearchTerm,
+                  query.GenreId,
+                  query.Sorting,
+                  query.IndexPage,
+                  AllGamesQueryModel.gamesPerPage,
+                  userId);
+
+            query.TotalGames = modelResult.TotalGames;
+            query.Games = modelResult.Games;
+            query.GamesExist = modelResult.GameExist;
+
+            query.Genres = storeService.GetGenres();
+
+
+            return View(query);
         }
     }
 }

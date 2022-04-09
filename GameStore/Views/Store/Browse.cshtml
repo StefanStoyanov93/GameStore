@@ -1,10 +1,10 @@
 ﻿@model AllGamesQueryModel
 
 @{
-	ViewData["Title"] = "LevelUp Game Store | Browse";
+	ViewData["Title"] = "LevelUp Game Store | Browse | Download and Play";
 }
 
-@if (!Model.Games.Any())
+@if (@Model.GamesExist)
 {
 	<div class="text-center">
 		<h1 class="display-4">Level Up Game Store!</h1>
