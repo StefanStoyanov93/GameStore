@@ -29,5 +29,9 @@ namespace GameStore.Core.Serveces.Contracts
             string userId = null);
 
 		bool Buy(string id, string userId);
+
+		bool WishlistRemove(string id, string userId);
+
+		bool WishlistAdd(string id, string userId);
 	}
 }

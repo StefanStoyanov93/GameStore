@@ -47,7 +47,7 @@
 				<img src=@game.ImageUrl class="card-img-top" alt="...">
 				<div class="card-body text-white" style="font: bold">
 					<p class="card-title">@game.Name</p>
-					<p class="card-text">@game.Price$</p>
+					<p class="card-text">USD @String.Format("{0:0.00}", game.Price)</p>
 					<a asp-controller="App" asp-action="Details" asp-route-id="@game.Id" class="btn btn-primary" style="width: 100%; display: block;">Check It!</a>
 				</div>
 			</div>

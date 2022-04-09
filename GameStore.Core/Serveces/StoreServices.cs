@@ -213,5 +213,41 @@ namespace GameStore.Core.Serveces
         public bool NameExists(string name)
             => data.Games
             .Any(x => x.Name == name);
-    }
+
+		public bool WishlistAdd(string id, string userId)
+		{
+            var game = data.Games.Where(x => x.Id.ToString() == id).FirstOrDefault();
+
+            if (game == null)
+            {
+                return false;
+            }
+
+            var wishlisted = new Wishlist
+            {
+                UserId = userId,
+                Game = game
+            };
+
+            data.Add(wishlisted);
+            data.SaveChanges();
+
+            return true;
+        }
+
+		public bool WishlistRemove(string id, string userId)
+		{
+            var game = data.Wishlists.Where(x => x.GameId.ToString() == id && x.UserId == userId).FirstOrDefault();
+
+            if (game == null)
+            {
+                return false;
+            }
+
+            data.Remove(game);
+            data.SaveChanges();
+
+            return true;
+        }
+	}
 }

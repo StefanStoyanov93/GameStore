@@ -37,5 +37,31 @@ namespace GameStore.Controllers
 
            return RedirectToAction("All", "Collection");
 		}
+
+        public IActionResult AddToWishlist(string id)
+		{
+            var userId = User.GetUserId();
+            var add = this.storeService.WishlistAdd(id, userId);
+
+            if (!add)
+            {
+                BadRequest();
+            }
+
+            return RedirectToAction("Wishlist", "Store");
+        }
+
+        public IActionResult RemoveFromWishlist(string id)
+		{
+            var userId = User.GetUserId();
+            var remove = this.storeService.WishlistRemove(id, userId);
+
+            if (!remove)
+            {
+                BadRequest();
+            }
+
+            return RedirectToAction("Wishlist", "Store");
+        }
     }
 }
