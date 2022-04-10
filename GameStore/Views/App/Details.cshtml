@@ -33,7 +33,7 @@
 				{
 					@if (Model.Sorting == OwnershipSorting.Bought)
 					{
-						<button asp-route-id="@Model.Id" asp-controller="App" asp-action="Download" type="button" class="w-100 btn btn-lg btn-primary mb-3">DOWNLOAD</button>
+						<button asp-controller="App" asp-action="Download" type="submit" class="w-100 btn btn-lg btn-primary mb-3">DOWNLOAD</button>
 					}
 					else
 					{

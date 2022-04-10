@@ -63,5 +63,13 @@ namespace GameStore.Controllers
 
             return RedirectToAction("Browse", "Store");
         }
+
+        public IActionResult Download()
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "TheGame.txt");
+            byte[] fileBytes = System.IO.File.ReadAllBytes(path);
+            string fileName = "TheGame.txt";
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+        }
     }
 }
