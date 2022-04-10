@@ -9,7 +9,7 @@ namespace GameStore.Core.Serveces.Contracts
 
         bool NameExists(string name);
 
-        List<StoreGamesViewModel> GetGames();
+        //List<StoreGamesViewModel> GetGames();
 
         GameServiceManagerModel All(string searchTerm = null, 
             int indexPage = 1, 
@@ -26,12 +26,15 @@ namespace GameStore.Core.Serveces.Contracts
             GameSorting sorting = GameSorting.ReleaseDate, 
             int indexPage = 1,
             int gamesPerPage = int.MaxValue,
-            string userId = null);
+            string userId = null,
+            bool isBought = true);
 
 		bool Buy(string id, string userId);
 
 		bool WishlistRemove(string id, string userId);
 
 		bool WishlistAdd(string id, string userId);
-	}
+
+        List<BaseGameModel> GetIndexGames();
+    }
 }

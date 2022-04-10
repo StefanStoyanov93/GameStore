@@ -42,11 +42,11 @@
 
 						if (Model.Sorting == OwnershipSorting.Wishlisted)
 						{
-							<button asp-route-id="@Model.Id" asp-controller="App" asp-action="RemoveFromWishlist" type="button" class="w-100 btn btn-lg bg-black  text-light">REMOVE FROM WISHLIST</button>
+							<button asp-route-id="@Model.Id" asp-controller="App" asp-action="RemoveFromWishlist" type="submit" class="w-100 btn btn-lg bg-black  text-light">REMOVE FROM WISHLIST</button>
 						}
 						else
 						{
-							<button asp-route-id="@Model.Id" asp-controller="App" asp-action="AddToWishlist" type="button" class="w-100 btn btn-lg bg-black text-light">ADD TO WISHLIST</button>
+							<button asp-route-id="@Model.Id" asp-controller="App" asp-action="AddToWishlist" type="submit" class="w-100 btn btn-lg bg-black text-light">ADD TO WISHLIST</button>
 						}
 					}
 				}

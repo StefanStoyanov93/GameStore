@@ -61,7 +61,7 @@ namespace GameStore.Controllers
                 BadRequest();
             }
 
-            return RedirectToAction("Wishlist", "Store");
+            return RedirectToAction("Browse", "Store");
         }
     }
 }

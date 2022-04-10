@@ -15,6 +15,18 @@ namespace GameStore.Core.Serveces
             this.data = _data;
         }
 
+        public List<BaseGameModel> GetIndexGames()
+            => data.Games
+            .OrderByDescending(x => x.Id)
+            .Select(x => new BaseGameModel
+            {
+                Id = x.Id.ToString(),
+                Name = x.Name,
+                Image = x.ImageUrl
+            })
+            .Take(3)
+            .ToList();
+
         public GameServiceManagerModel All(string searchTerm = null, int indexPage = 1, int gamesPerPage = int.MaxValue)
         {
             var gamesQuery = data.Games.ToList();
@@ -128,9 +140,25 @@ namespace GameStore.Core.Serveces
             return true;
 		}
 
-		public GameServiceModel Collection(string searchTerm = null, int genreId = 0, GameSorting sorting = GameSorting.ReleaseDate, int indexPage = 1, int gamesPerPage = int.MaxValue, string userId = null)
+		public GameServiceModel Collection(string searchTerm = null, 
+            int genreId = 0, 
+            GameSorting sorting = GameSorting.ReleaseDate, 
+            int indexPage = 1, 
+            int gamesPerPage = int.MaxValue, 
+            string userId = null, 
+            bool isBought = true)
 		{
-            var gamesQuery = data.Games.Where(x => x.GameOwners.Any(g => g.UserId == userId)).AsQueryable();
+
+            IQueryable<Game> gamesQuery;
+
+            if (isBought)
+            {
+                gamesQuery = data.Games.Where(x => x.GameOwners.Any(g => g.UserId == userId)).AsQueryable();
+            }
+            else
+            {
+                gamesQuery = data.Games.Where(x => x.Wishlist.Any(g => g.UserId == userId)).AsQueryable();
+            }
 
             bool gameExist = false; 
 			if (gamesQuery.Count() == 0)
@@ -190,16 +218,16 @@ namespace GameStore.Core.Serveces
             return model;
         }
 
-		public List<StoreGamesViewModel> GetGames()
-            => data.Games
-            .Select(x => new StoreGamesViewModel
-            {
-                Id = x.Id.ToString(),
-                Name = x.Name,
-                ImageUrl = x.ImageUrl,
-                Price = x.Price,
-            })
-            .ToList();
+		//public List<StoreGamesViewModel> GetGames()
+  //          => data.Games
+  //          .Select(x => new StoreGamesViewModel
+  //          {
+  //              Id = x.Id.ToString(),
+  //              Name = x.Name,
+  //              ImageUrl = x.ImageUrl,
+  //              Price = x.Price,
+  //          })
+  //          .ToList();
 
         public IEnumerable<GenreSortingModel> GetGenres()
             => this.data.Genres
@@ -229,7 +257,7 @@ namespace GameStore.Core.Serveces
                 Game = game
             };
 
-            data.Add(wishlisted);
+            data.Wishlists.Add(wishlisted);
             data.SaveChanges();
 
             return true;
@@ -249,5 +277,7 @@ namespace GameStore.Core.Serveces
 
             return true;
         }
+
+
 	}
 }

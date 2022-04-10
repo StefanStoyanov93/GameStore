@@ -8,17 +8,17 @@ namespace GameStore.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IGameService gameService;
+        private readonly IStoreServices storeService;
 
-        public HomeController(ILogger<HomeController> logger, IGameService _service)
+        public HomeController(ILogger<HomeController> logger, IStoreServices _service)
         {
             _logger = logger;
-            gameService = _service;
+            storeService = _service;
         }
 
         public IActionResult Index()
         {
-            var indexGames = gameService.GetIndexGames();
+            var indexGames = storeService.GetIndexGames();
 
             return View(indexGames);
         }
