@@ -103,7 +103,7 @@ else
 						</a>
 
 						<h2 style="text-align:left;">USD @String.Format("{0:0.00}", game.Price)</h2>
-						<a asp-controller="App" asp-action="Details" asp-route-id="@game.Id" class="btn btn-primary mb-3" style="width: 60%; display: block;">BUY</a>
+						<a asp-controller="App" asp-action="Buy" asp-route-id="@game.Id" class="btn btn-primary mb-3" style="width: 60%; display: block;">BUY</a>
 						<a asp-controller="App" asp-action="RemoveFromWishlist" asp-route-id="@game.Id" class="btn btn-danger" style="width: 60%; display: block;">Remove</a>
 					</div>
 				</div>

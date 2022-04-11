@@ -128,6 +128,12 @@ namespace GameStore.Core.Serveces
                 return false;
 			}
 
+            var wishlist = data.Wishlists.Where(x => x.UserId == userId && x.GameId.ToString() == id).FirstOrDefault();
+            if (wishlist != null)
+            {
+                data.Wishlists.Remove(wishlist);
+            }
+
             var ownedGame = new OwnedGame
             {
                 UserId = userId,
@@ -217,17 +223,6 @@ namespace GameStore.Core.Serveces
 
             return model;
         }
-
-		//public List<StoreGamesViewModel> GetGames()
-  //          => data.Games
-  //          .Select(x => new StoreGamesViewModel
-  //          {
-  //              Id = x.Id.ToString(),
-  //              Name = x.Name,
-  //              ImageUrl = x.ImageUrl,
-  //              Price = x.Price,
-  //          })
-  //          .ToList();
 
         public IEnumerable<GenreSortingModel> GetGenres()
             => this.data.Genres
