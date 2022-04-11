@@ -7,9 +7,7 @@ namespace GameStore.Core.Serveces.Contracts
     {
         IEnumerable<GenreSortingModel> GetGenres();
 
-        bool NameExists(string name);
-
-        //List<StoreGamesViewModel> GetGames();
+        Task<bool> NameExists(string name);
 
         GameServiceManagerModel All(string searchTerm = null, 
             int indexPage = 1, 
@@ -29,12 +27,12 @@ namespace GameStore.Core.Serveces.Contracts
             string userId = null,
             bool isBought = true);
 
-		bool Buy(string id, string userId);
+        Task Buy(string id, string userId);
 
-		bool WishlistRemove(string id, string userId);
+		Task WishlistRemove(string id, string userId);
 
-		bool WishlistAdd(string id, string userId);
+		Task WishlistAdd(string id, string userId);
 
-        List<BaseGameModel> GetIndexGames();
+        Task<IEnumerable<BaseGameModel>> GetIndexGames();
     }
 }

@@ -3,6 +3,7 @@ using GameStore.Core.Models.Manager;
 using GameStore.Core.Serveces.Contracts;
 using GameStore.Data.Data;
 using GameStore.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Core.Serveces
 {
@@ -15,21 +16,21 @@ namespace GameStore.Core.Serveces
             this.data = _data;
         }
 
-        public List<BaseGameModel> GetIndexGames()
-            => data.Games
-            .OrderByDescending(x => x.Id)
-            .Select(x => new BaseGameModel
-            {
-                Id = x.Id.ToString(),
-                Name = x.Name,
-                Image = x.ImageUrl
-            })
-            .Take(3)
-            .ToList();
+        public async Task<IEnumerable<BaseGameModel>> GetIndexGames()
+            => await data.Games
+                       .OrderByDescending(x => x.Id)
+                       .Select(x => new BaseGameModel
+                       {
+                           Id = x.Id.ToString(),
+                           Name = x.Name,
+                           Image = x.ImageUrl
+                       })
+                       .Take(3)
+                       .ToListAsync();
 
         public GameServiceManagerModel All(string searchTerm = null, int indexPage = 1, int gamesPerPage = int.MaxValue)
         {
-            var gamesQuery = data.Games.ToList();
+            var gamesQuery =  data.Games.ToList();
 
             if (!String.IsNullOrWhiteSpace(searchTerm))
             {
@@ -119,16 +120,16 @@ namespace GameStore.Core.Serveces
             return model;
         }
 
-		public bool Buy(string id, string userId)
+		public async Task Buy(string id, string userId)
 		{
-            var game  = data.Games.Where(x => x.Id.ToString() == id).FirstOrDefault();
+            var game  = await data.Games.Where(x => x.Id.ToString() == id).FirstOrDefaultAsync();
 
             if (game == null)
 			{
-                return false;
-			}
+                throw new ArgumentException("Game doesn't exist.");
+            }
 
-            var wishlist = data.Wishlists.Where(x => x.UserId == userId && x.GameId.ToString() == id).FirstOrDefault();
+            var wishlist = await data.Wishlists.Where(x => x.UserId == userId && x.GameId.ToString() == id).FirstOrDefaultAsync();
             if (wishlist != null)
             {
                 data.Wishlists.Remove(wishlist);
@@ -140,10 +141,8 @@ namespace GameStore.Core.Serveces
                 Game = game
             };
 
-            data.Add(ownedGame);
-            data.SaveChanges();
-
-            return true;
+            await data.AddAsync(ownedGame);
+            await data.SaveChangesAsync();
 		}
 
 		public GameServiceModel Collection(string searchTerm = null, 
@@ -233,17 +232,16 @@ namespace GameStore.Core.Serveces
                 })
                 .ToList();
 
-        public bool NameExists(string name)
-            => data.Games
-            .Any(x => x.Name == name);
+        public async Task<bool> NameExists(string name)
+            => await data.Games.AnyAsync(x => x.Name == name);
 
-		public bool WishlistAdd(string id, string userId)
+		public async Task WishlistAdd(string id, string userId)
 		{
-            var game = data.Games.Where(x => x.Id.ToString() == id).FirstOrDefault();
+            var game = await data.Games.Where(x => x.Id.ToString() == id).FirstOrDefaultAsync();
 
             if (game == null)
             {
-                return false;
+                throw new ArgumentException("Game doesn't exist.");
             }
 
             var wishlisted = new Wishlist
@@ -252,25 +250,21 @@ namespace GameStore.Core.Serveces
                 Game = game
             };
 
-            data.Wishlists.Add(wishlisted);
-            data.SaveChanges();
-
-            return true;
+            await data.Wishlists.AddAsync(wishlisted);
+            await data.SaveChangesAsync();
         }
 
-		public bool WishlistRemove(string id, string userId)
+		public async Task WishlistRemove(string id, string userId)
 		{
-            var game = data.Wishlists.Where(x => x.GameId.ToString() == id && x.UserId == userId).FirstOrDefault();
+            var game = await data.Wishlists.Where(x => x.GameId.ToString() == id && x.UserId == userId).FirstOrDefaultAsync();
 
             if (game == null)
             {
-                return false;
+                throw new ArgumentException("Game doesn't exist.");
             }
 
             data.Remove(game);
-            data.SaveChanges();
-
-            return true;
+            await data.SaveChangesAsync();
         }
 
 

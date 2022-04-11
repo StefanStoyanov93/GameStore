@@ -15,50 +15,59 @@ namespace GameStore.Controllers
             this.storeService = _storeServices;
         }
 
-        public IActionResult Details(string id)
+        public async Task<IActionResult> Details(string id)
         {
-            var game = gameService.Details(id);
+            var game = await gameService.Details(id);
 
             var userId = User.GetUserId();
-            game.Sorting = gameService.GetOwnership(id, userId);
+            game.Sorting = await gameService.GetOwnership(id, userId);
 
             return View(game);
         }
 
-        public IActionResult Buy(string id)
+        public async Task<IActionResult> Buy(string id)
 		{
             var userId = User.GetUserId();
-            var buy = this.storeService.Buy(id, userId);
 
-			if (!buy)
-			{
-                BadRequest();
-			}
+            try
+            {
+                await this.storeService.Buy(id, userId);
+            }
+            catch (ArgumentException ae)
+            {
+                return BadRequest(ae.Message);
+            }
 
            return RedirectToAction("All", "Collection");
 		}
 
-        public IActionResult AddToWishlist(string id)
+        public async Task<IActionResult> AddToWishlist(string id)
 		{
             var userId = User.GetUserId();
-            var add = this.storeService.WishlistAdd(id, userId);
 
-            if (!add)
+            try
             {
-                BadRequest();
+                await this.storeService.WishlistAdd(id, userId);
+            }
+            catch (ArgumentException ae)
+            {
+                return BadRequest(ae.Message);
             }
 
             return RedirectToAction("Wishlist", "Store");
         }
 
-        public IActionResult RemoveFromWishlist(string id)
+        public async Task<IActionResult> RemoveFromWishlist(string id)
 		{
             var userId = User.GetUserId();
-            var remove = this.storeService.WishlistRemove(id, userId);
-
-            if (!remove)
+            
+            try
             {
-                BadRequest();
+                await this.storeService.WishlistRemove(id, userId);
+            }
+            catch (ArgumentException ae)
+            {
+                return BadRequest(ae.Message);
             }
 
             return RedirectToAction("Browse", "Store");

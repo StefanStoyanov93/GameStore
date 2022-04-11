@@ -5,7 +5,7 @@ namespace GameStore.Core.Serveces.Contracts
 {
     public interface IGameService
     {
-        void Create(string name,
+        Task Create(string name,
             string developer,
             string publisher,
             string description,
@@ -13,7 +13,7 @@ namespace GameStore.Core.Serveces.Contracts
             DateTime releasedate,
             List<int> genreIds);
 
-        bool Edit(string id,
+        Task<bool> Edit(string id,
             string name,
             string developer,
             string publisher,
@@ -23,15 +23,15 @@ namespace GameStore.Core.Serveces.Contracts
             DateTime releaseDate,
             ICollection<int> genreIds);
 
-       
-
-        bool Delete(string id);
-
-        GameDeleteModel GetGameForDelete(string id);
-
-        GamesDetailsListModel Details(string id);
 
 
-        OwnershipSorting GetOwnership(string id, string userId);
+        Task<bool> Delete(string id);
+
+        Task<GameDeleteModel> GetGameForDelete(string id);
+
+        Task<GamesDetailsListModel> Details(string id);
+
+
+        Task<OwnershipSorting> GetOwnership(string id, string userId);
     }
 }

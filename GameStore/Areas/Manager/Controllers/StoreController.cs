@@ -18,10 +18,10 @@ namespace GameStore.Areas.Manager.Controllers
 
 
         [HttpPost]
-        public IActionResult AddGame(GameFormModel game)
+        public async Task<IActionResult> AddGame(GameFormModel game)
         {
 
-            if (storeService.NameExists(game.Name))
+            if (await storeService.NameExists(game.Name))
             {
                 ModelState.AddModelError(nameof(game.Name), "Game with this name already exist in the database.");
             }
@@ -33,7 +33,7 @@ namespace GameStore.Areas.Manager.Controllers
                 return View(game);
             }
 
-            gameService.Create(game.Name, 
+            await gameService.Create(game.Name, 
                 game.Developer, 
                 game.Publisher, 
                 game.Description, 
@@ -65,9 +65,9 @@ namespace GameStore.Areas.Manager.Controllers
             });
         }
 
-        public IActionResult Edit(string id)
+        public async Task<IActionResult> Edit(string id)
         {
-            var model = gameService.Details(id);
+            var model = await gameService.Details(id);
 
             if (model == null)
             {
@@ -95,7 +95,7 @@ namespace GameStore.Areas.Manager.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(string id, GameFormModel game)
+        public async Task<IActionResult> Edit(string id, GameFormModel game)
         {
             if (!ModelState.IsValid)
             {
@@ -104,7 +104,7 @@ namespace GameStore.Areas.Manager.Controllers
                 return View(game);
             }
 
-            var edited = gameService.Edit(id, 
+            var edited = await gameService.Edit(id, 
                 game.Name, 
                 game.Developer, 
                 game.Publisher, 
@@ -123,17 +123,17 @@ namespace GameStore.Areas.Manager.Controllers
         }
 
         [HttpGet]
-        public IActionResult Remove(string id)
+        public async Task<IActionResult> Remove(string id)
         {
-            var game = gameService.GetGameForDelete(id);
+            var game = await gameService.GetGameForDelete(id);
 
             return View(game);
         }
 
         [HttpPost, ActionName(nameof(Remove))]
-        public IActionResult RemoveConfirmed(string id)
+        public async Task<IActionResult> RemoveConfirmed(string id)
         {
-            bool IsDeleated = gameService.Delete(id);
+            bool IsDeleated = await gameService.Delete(id);
 
             if (!IsDeleated)
             {

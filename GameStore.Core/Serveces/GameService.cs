@@ -3,6 +3,7 @@ using GameStore.Core.Models.Manager;
 using GameStore.Core.Serveces.Contracts;
 using GameStore.Data.Data;
 using GameStore.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Core.Serveces
 {
@@ -15,7 +16,7 @@ namespace GameStore.Core.Serveces
             this.data = _data;
         }
 
-        public void Create(string name, string developer, string publisher, string description, decimal price, string imageUrl, DateTime releasedate, List<int> genreIds)
+        public async Task Create(string name, string developer, string publisher, string description, decimal price, string imageUrl, DateTime releasedate, List<int> genreIds)
         {
             var gameData = new Game
             {
@@ -41,15 +42,15 @@ namespace GameStore.Core.Serveces
                 genreList.Add(gameGenre);
             }
 
-            data.Add(gameData);
-            data.AddRange(genreList);
+            await data.AddAsync(gameData);
+            await data.AddRangeAsync(genreList);
 
-            data.SaveChanges();
+            await data.SaveChangesAsync();
         }
 
-        public bool Delete(string id)
+        public async Task<bool> Delete(string id)
         {
-            var game = data.Games.FirstOrDefault(x => x.Id.ToString() == id);
+            var game = await data.Games.FirstOrDefaultAsync(x => x.Id.ToString() == id);
 
             if (game == null)
             {
@@ -57,13 +58,13 @@ namespace GameStore.Core.Serveces
             }
 
             data.Games.Remove(game);
-            data.SaveChanges();
+            await data.SaveChangesAsync();
 
             return true;
         }
 
-        public GamesDetailsListModel Details(string id)
-            => data
+        public async Task<GamesDetailsListModel> Details(string id)
+            => await data
             .Games
             .Where(x => x.Id.ToString() == id)
             .Select(x => new GamesDetailsListModel
@@ -82,18 +83,18 @@ namespace GameStore.Core.Serveces
                     GenreName = x.Genre.GenreName
                 }).ToList()
             })
-            .First();
+            .FirstAsync();
 
-        public bool Edit(string id, string name, string developer, string publisher, string description, string imageUrl, decimal price, DateTime releaseDate, ICollection<int> genreIds)
+        public async Task<bool> Edit(string id, string name, string developer, string publisher, string description, string imageUrl, decimal price, DateTime releaseDate, ICollection<int> genreIds)
         {
-            var game = data.Games.FirstOrDefault(x => x.Id.ToString() == id);
+            var game = await data.Games.FirstOrDefaultAsync(x => x.Id.ToString() == id);
 
             if (game == null)
             {
                 return false;
             }
 
-            List<GameGenre> oldGameGenres = data.GameGenres.Where(x => x.GameId.ToString() == id).ToList();
+            List<GameGenre> oldGameGenres = await data.GameGenres.Where(x => x.GameId.ToString() == id).ToListAsync();
 
             game.Name = name;
             game.Developer = developer;
@@ -117,15 +118,15 @@ namespace GameStore.Core.Serveces
             }
 
             data.GameGenres.RemoveRange(oldGameGenres);
-            data.AddRange(newGameGenres);
-            data.SaveChanges();
+            await data.AddRangeAsync(newGameGenres);
+            await data.SaveChangesAsync();
 
             return true;
         }
 
-        public GameDeleteModel GetGameForDelete(string id)
+        public async Task<GameDeleteModel> GetGameForDelete(string id)
         {
-            var game = data.Games.FirstOrDefault(x => x.Id.ToString() == id);
+            var game = await data.Games.FirstOrDefaultAsync(x => x.Id.ToString() == id);
 
             var model = new GameDeleteModel
             {
@@ -140,26 +141,14 @@ namespace GameStore.Core.Serveces
             return model;
         }
 
-        public List<BaseGameModel> GetIndexGames()
-            => data.Games
-            .OrderByDescending(x => x.Id)
-            .Select(x => new BaseGameModel
-            {
-                Id = x.Id.ToString(),
-                Name = x.Name,
-                Image = x.ImageUrl
-            })
-            .Take(3)
-            .ToList();
-
-        public OwnershipSorting GetOwnership(string id, string userId)
+        public async Task<OwnershipSorting> GetOwnership(string id, string userId)
         {
 
-            if (data.OwnedGames.Any(x => x.UserId == userId && x.GameId.ToString() == id))
+            if (await data.OwnedGames.AnyAsync(x => x.UserId == userId && x.GameId.ToString() == id))
             {
                 return OwnershipSorting.Bought;
             }
-            else if (data.Wishlists.Any(x => x.UserId == userId && x.GameId.ToString() == id))
+            else if (await data.Wishlists.AnyAsync(x => x.UserId == userId && x.GameId.ToString() == id))
             {
                 return OwnershipSorting.Wishlisted;
             }
