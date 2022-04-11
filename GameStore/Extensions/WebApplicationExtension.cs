@@ -1,5 +1,7 @@
-﻿using GameStore.Data.Models;
+﻿using GameStore.Data.Data;
+using GameStore.Data.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Extensions
 {
@@ -10,9 +12,18 @@ namespace GameStore.Extensions
             var scoped = app.Services.CreateScope();
             var serviceProvider = scoped.ServiceProvider;
 
+            MigrateDatabase(serviceProvider);
+
             CreateAndSeedDataManager(serviceProvider);
 
             return app;
+        }
+
+        private static void MigrateDatabase(IServiceProvider services)
+        {
+            var data = services.GetRequiredService<GameStoreDbContext>();
+
+            data.Database.Migrate();
         }
 
         private static void CreateAndSeedDataManager(IServiceProvider serviceProvider)
