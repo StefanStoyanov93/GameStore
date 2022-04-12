@@ -1,10 +1,12 @@
-﻿using GameStore.Core.Serveces;
+﻿using GameStore.Core.Models;
+using GameStore.Core.Serveces;
 using GameStore.Core.Serveces.Contracts;
 using GameStore.Data.Data;
 using GameStore.Data.Models;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace GameStore.Tests
@@ -49,22 +51,6 @@ namespace GameStore.Tests
         }
 
         [Test]
-        public void GameDoesExistWhenYouTryToBuyException()
-        {
-            var gameid = "9940548e-dadc-405f-83f9-57431685cf5d";
-
-            var user = new User
-            {
-                Id = "55cf1f0a-a6d7-4d6e-9c1d-4bed0ec274b6"
-            };
-
-            var service = serviceProvider.GetService<IStoreServices>();
-
-
-            Assert.DoesNotThrowAsync(async () => await service.Buy(gameid, user.Id));
-        }
-
-        [Test]
         public async Task TestThatGameWithThisNameAlreadyExist()
         {
             var gamename = "ElderRing";
@@ -73,6 +59,7 @@ namespace GameStore.Tests
 
             Assert.IsTrue(await service.NameExists(gamename));
         }
+
 
         [Test]
         public void GameDoesNotExistWhenYouTryAddToWishlistException()
@@ -86,7 +73,22 @@ namespace GameStore.Tests
             var service = serviceProvider.GetService<IStoreServices>();
 
 
-            Assert.CatchAsync<ArgumentException>(async () => await service.Buy(gameid, user.Id), "Game doesn't exist.");
+            Assert.CatchAsync<ArgumentException>(async () => await service.WishlistAdd(gameid, user.Id), "Game doesn't exist.");
+        }
+
+        [Test]
+        public void GameDoesNotExistWhenYouTryToRemoveFromWishlistException()
+        {
+            var gameid = "adsvdfsgsfd";
+            var user = new User
+            {
+                Id = "55cf1f0a - a6d7 - 4d6e-9c1d - 4bed0ec274b6"
+            };
+
+            var service = serviceProvider.GetService<IStoreServices>();
+
+
+            Assert.CatchAsync<ArgumentException>(async () => await service.WishlistRemove(gameid, user.Id), "Game doesn't exist.");
         }
 
 
@@ -103,11 +105,10 @@ namespace GameStore.Tests
             //    Id = 1,
             //    GenreName = "Action"
             //};
-            Guid newGuid = Guid.Parse("9940548e-dadc-405f-83f9-57431685cf5d");
 
             var game = new Game()
             {
-                Id = newGuid,
+                Id = new Guid("9940548e-dadc-405f-83f9-57431685cf5d"),
                 Name = "ElderRing",
                 Publisher = "Vasko",
                 Developer = "Pesho",

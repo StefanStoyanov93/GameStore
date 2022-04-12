@@ -122,7 +122,7 @@ namespace GameStore.Core.Serveces
 
 		public async Task Buy(string id, string userId)
 		{
-            var game  = await data.Games.Where(x => x.Id.ToString() == id).FirstOrDefaultAsync();
+            var game  = await data.Games.FirstOrDefaultAsync(x => x.Id.ToString() == id);
 
             if (game == null)
 			{
@@ -237,7 +237,7 @@ namespace GameStore.Core.Serveces
 
 		public async Task WishlistAdd(string id, string userId)
 		{
-            var game = await data.Games.Where(x => x.Id.ToString() == id).FirstOrDefaultAsync();
+            var game = await data.Games.FirstOrDefaultAsync(x => x.Id.ToString() == id);
 
             if (game == null)
             {
