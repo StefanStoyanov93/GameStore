@@ -1,4 +1,6 @@
-﻿@model GamesDetailsListModel
+﻿@using GameStore.Data.Models
+@model GamesDetailsListModel
+@inject SignInManager<User> SignInManager
 
 @{
 	ViewData["Title"] = "LevelUp Game Store | Details | " + @Model.Name;
@@ -29,6 +31,11 @@
 					<a class="w-100 btn btn-lg btn-warning mb-3" asp-area="Manager" asp-controller="Store" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
 					<a class="w-100 btn btn-lg btn-danger" asp-area="Manager" asp-controller="Store" asp-action="Remove" asp-route-id="@Model.Id">Remove</a>
 				}
+				else if(!SignInManager.IsSignedIn(User))
+				{
+					<a class="w-100 btn btn-lg btn-warning mb-3" asp-area="Identity" asp-page="/Account/Login">BUY NOW</a>
+					<a class="w-100 btn btn-lg btn-danger" asp-area="Identity" asp-page="/Account/Login">ADD TO WISHLIST</a>
+				}
 				else
 				{
 					@if (Model.Sorting == OwnershipSorting.Bought)
@@ -51,7 +58,7 @@
 					}
 				}
 			</form>
-			<section class="bg-dark text-white" ">
+			<section class="bg-dark text-white" >
 				<p class="bg-dark text-white mb-3" style="object-fit: cover; border:white; border-bottom:solid; border-top:solid; border-width:1.5px;">
 					@Model.Description
 				</p>
