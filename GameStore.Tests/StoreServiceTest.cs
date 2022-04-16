@@ -101,30 +101,30 @@ namespace GameStore.Tests
         }
 
         [Test]
-        public void TestAreSame()
+        public void MethodBrowseDoesntReturnNullWHenIsUsed()
         {
             var service = serviceProvider.GetService<IStoreServices>();
-            var repo = serviceProvider.GetService<GameStoreDbContext>();
-
-            var games = repo.Games
-                .Skip((1 - 1) * 12)
-                .Take(12)
-                .Select(x => new BaseGameModel
-                {
-                    Id = x.Id.ToString(),
-                    Name = x.Name,
-                    Image = x.ImageUrl,
-                })
-                .ToList();
-            var count = games.Count;
-            var model = new GameServiceManagerModel()
-            {
-                Games = games,
-                TotalGames = count
-            };
 
 
-            Assert.AreEqual(model, service.All(null, 1, 12));
+            Assert.IsNotNull(service.Collection(null, 0, GameSorting.ReleaseDate, 1, 12, null, true));
+        }
+
+        [Test]
+        public void MethodCollectionDoesntReturnNullWHenIsUsed()
+        {
+            var service = serviceProvider.GetService<IStoreServices>();
+
+
+            Assert.IsNotNull(service.Browse(null,0,GameSorting.ReleaseDate, 1, 12));
+        }
+
+        [Test]
+        public void MethodAllDoesntReturnNullWHenIsUsed()
+        {
+            var service = serviceProvider.GetService<IStoreServices>();
+
+
+            Assert.IsNotNull(service.All(null, 1, 12));
         }
 
 
@@ -161,12 +161,6 @@ namespace GameStore.Tests
 
         private async Task SeedDbAsync(GameStoreDbContext repo)
         {
-            //var genre = new Genre
-            //{
-            //    Id = 1,
-            //    GenreName = "Action"
-            //};
-
             var game = new Game()
             {
                 Id = new Guid("9940548e-dadc-405f-83f9-57431685cf5d"),
@@ -181,7 +175,7 @@ namespace GameStore.Tests
 
             var gameTwo = new Game()
             {
-                Id = new Guid("7DC67E2F-06ED-4234-9B7C-4332ECC14F1E"),
+                Id =  Guid.NewGuid(),
                 Name = "GodOfWar",
                 Publisher = "meme",
                 Developer = "meme",
@@ -193,7 +187,7 @@ namespace GameStore.Tests
 
             var gameThree = new Game()
             {
-                Id = new Guid("31E4F1F2-0117-437A-AB80-D6E3AE702F1B"),
+                Id = new Guid("b215fe9b-9112-4b8b-8a38-75bc6dbc6280"),
                 Name = "Halo",
                 Publisher = "meme",
                 Developer = "meme",
@@ -209,12 +203,6 @@ namespace GameStore.Tests
             //    GenreId = genre.Id
             //};
 
-            var user = new User()
-            {
-                Id = "55cf1f0a - a6d7 - 4d6e-9c1d - 4bed0ec274b6"
-            };
-
-            //await repo.AddAsync(genre);
             await repo.AddAsync(game);
             await repo.AddAsync(gameTwo);
             await repo.AddAsync(gameThree);
